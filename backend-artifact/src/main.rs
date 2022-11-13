@@ -1,0 +1,116 @@
+use std::collections::HashMap;
+
+use actix_web::guard::Post;
+use actix_web::web::{resource, Data};
+use actix_web::{get, App, HttpServer};
+use actix_web_prometheus::PrometheusMetricsBuilder;
+use actix_web_static_files::ResourceFiles;
+use async_graphql::futures_util::future::join_all;
+use async_graphql::{EmptyMutation, EmptySubscription, Schema};
+use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
+use env_logger::Env;
+use prometheus::{histogram_opts, HistogramVec};
+use thiserror::Error;
+
+use backend_impl::{create_schema, Query};
+
+include!(concat!(env!("OUT_DIR"), "/generated.rs"));
+async fn graphql(
+    // Schema now accessible here
+    context: Data<ApplicationContext>,
+    request: GraphQLRequest,
+) -> GraphQLResponse {
+    let schema = context.schema.clone();
+    let histogram = context.graphql_request_histogram.clone();
+    let inner_request = request.into_inner();
+    let timer = histogram
+        .with_label_values(&[inner_request.operation_name.as_deref().unwrap_or("<anon>")])
+        .start_timer();
+    let response = schema.execute(inner_request).await;
+    timer.stop_and_record();
+    response.into()
+}
+
+#[get("/health")]
+async fn health() -> &'static str {
+    "Ok"
+}
+
+#[derive(Clone)]
+struct ApplicationContext {
+    schema: Schema<Query, EmptyMutation, EmptySubscription>,
+    graphql_request_histogram: HistogramVec,
+}
+
+#[derive(Error, Debug)]
+enum BackendError {
+    #[error("An IO Error happened")]
+    IO(#[from] std::io::Error),
+    #[error("An Error from prometheus")]
+    Prometheus(#[from] prometheus::Error),
+}
+
+#[tokio::main]
+async fn main() -> Result<(), BackendError> {
+    env_logger::init_from_env(Env::default().filter_or("MY_LOG_LEVEL", "info"));
+
+    let bind_addr = "127.0.0.1";
+    let api_port = 8080;
+    let mgmt_port = 9080;
+
+    let mut labels = HashMap::new();
+    labels.insert("server".to_string(), "api".to_string());
+
+    let graphql_request_histogram = HistogramVec::new(
+        histogram_opts!("graphql_request", "Measure graphql queries"),
+        &["name"],
+    )?;
+    let prometheus = PrometheusMetricsBuilder::new("")
+        .const_labels(labels)
+        .build()
+        .unwrap();
+
+    let registry = prometheus.registry.clone();
+    registry.register(Box::new(graphql_request_histogram.clone()))?;
+
+    let schema = create_schema();
+
+    let data = Data::new(ApplicationContext {
+        schema,
+        graphql_request_histogram,
+    });
+    let main_server = HttpServer::new(move || {
+        let resources = generate();
+        App::new()
+            .wrap(prometheus.clone())
+            .app_data(data.clone())
+            .service(resource("/graphql").guard(Post()).to(graphql))
+            // workaround for proxy troubles
+            .service(resource("/graphql/").guard(Post()).to(graphql))
+            .service(ResourceFiles::new("/", resources))
+    })
+    .bind((bind_addr, api_port))?
+    .run();
+    let mut labels = HashMap::new();
+    labels.insert("server".to_string(), "mgmt".to_string());
+
+    let prometheus = PrometheusMetricsBuilder::new("")
+        .const_labels(labels)
+        .registry(registry)
+        .endpoint("/metrics")
+        .build()
+        .unwrap();
+    let mgmt_server = HttpServer::new(move || App::new().wrap(prometheus.clone()).service(health))
+        .bind((bind_addr, mgmt_port))?
+        .workers(2)
+        .run();
+    if let Some(e) = join_all(vec![main_server, mgmt_server])
+        .await
+        .into_iter()
+        .flat_map(|r| r.err())
+        .next()
+    {
+        return Err(e.into());
+    }
+    Ok(())
+}

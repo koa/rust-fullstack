@@ -1,0 +1,7 @@
+[workspace]
+
+members = [
+    "backend-impl",
+    "yew-app",
+    "backend-artifact",
+]

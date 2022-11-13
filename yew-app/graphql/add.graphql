@@ -1,0 +1,3 @@
+query Add($a: Int!, $b: Int!) {
+    add(a: $a, b:$b)
+}

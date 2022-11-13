@@ -1,0 +1,6 @@
+/target
+/yew-app/target/
+/yew-app/graphql/schema.graphql
+/yew-app/node/node_modules/
+/yew-app/dist/
+/.idea
