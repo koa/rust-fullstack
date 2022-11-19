@@ -13,8 +13,9 @@ impl Query {
         a + b
     }
 }
+pub type GraphqlSchema = Schema<Query, EmptyMutation, EmptySubscription>;
 
-pub fn create_schema() -> Schema<Query, EmptyMutation, EmptySubscription> {
+pub fn create_schema() -> GraphqlSchema {
     Schema::build(Query, EmptyMutation, EmptySubscription).finish()
 }
 

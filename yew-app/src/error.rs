@@ -1,6 +1,8 @@
-use log::error;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
+
+use log::error;
+use reqwest::header::InvalidHeaderValue;
 use thiserror::Error;
 use wasm_bindgen::JsValue;
 
@@ -9,10 +11,11 @@ pub struct JavascriptError {
 }
 
 impl JavascriptError {
-    pub fn new(value: JsValue) -> Self {
-        JavascriptError {
-            original_value: value,
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        if let Some(string) = self.original_value.as_string() {
+            f.write_str(&string)?;
         }
+        Ok(())
     }
 }
 
@@ -26,19 +29,13 @@ impl From<JsValue> for JavascriptError {
 
 impl Debug for JavascriptError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if let Some(string) = self.original_value.as_string() {
-            f.write_str(&string)?;
-        }
-        Ok(())
+        Self::fmt(self, f)
     }
 }
 
 impl Display for JavascriptError {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        if let Some(string) = self.original_value.as_string() {
-            f.write_str(&string)?;
-        }
-        Ok(())
+        Self::fmt(self, f)
     }
 }
 
@@ -54,4 +51,8 @@ pub enum FrontendError {
     SerdeError(#[from] serde_json::Error),
     #[error("Graphql Execution Error")]
     GraphqlError(Vec<graphql_client::Error>),
+    #[error("Error on http request")]
+    ReqwestError(#[from] reqwest::Error),
+    #[error("Invalid http header")]
+    InvalidHeaderError(#[from] InvalidHeaderValue),
 }

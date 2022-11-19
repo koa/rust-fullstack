@@ -1,18 +1,11 @@
-// use anyhow::Result;
-use graphql_client::{GraphQLQuery, Response};
+use log::error;
 use patternfly_yew::Form;
 use patternfly_yew::TextInput;
-use wasm_bindgen::JsCast;
-use wasm_bindgen::JsValue;
 use wasm_bindgen_futures::spawn_local;
-use wasm_bindgen_futures::JsFuture;
-use web_sys::{window, Headers, RequestInit};
-use web_sys::{Request, RequestMode, Response as Res};
 use yew::html::Scope;
 use yew::{html, Component, Context, Html};
 
-use crate::error::{FrontendError, JavascriptError};
-use crate::graphql::{add, Add};
+use crate::graphql::{query, Add};
 
 pub struct Adder {
     a: i64,
@@ -25,8 +18,12 @@ impl Adder {
         let a = self.a;
         let b = self.b;
         spawn_local(async move {
-            let c = add(a, b).await.unwrap();
-            scope.send_message(AddMessage::ResultUpdate { a, b, c })
+            let result =
+                query::<Add, _>(scope.clone(), crate::graphql::add::Variables { a, b }).await;
+            match result {
+                Ok(value) => scope.send_message(AddMessage::ResultUpdate { a, b, c: value.add }),
+                Err(err) => error!("Error on server {err:?}"),
+            }
         });
     }
 }
@@ -35,48 +32,6 @@ pub enum AddMessage {
     AChanged(i64),
     BChanged(i64),
     ResultUpdate { a: i64, b: i64, c: i64 },
-}
-
-async fn add(a: i64, b: i64) -> Result<i64, FrontendError> {
-    let query = serde_json::json!(Add::build_query(add::Variables { a, b }));
-    let mut opts = RequestInit::new();
-    opts.method("POST");
-    let headers = Headers::new().map_err(|e| JavascriptError::new(e))?;
-    //headers.set("Accept", "application/json").unwrap();
-    headers
-        .set("Content-Type", "application/json")
-        .map_err(|e| JavascriptError::new(e))?;
-    opts.headers(&headers);
-    opts.body(Some(&JsValue::from_str(query.to_string().as_str())));
-    opts.mode(RequestMode::Cors);
-    let url = String::from("/graphql");
-    let request =
-        Request::new_with_str_and_init(url.as_str(), &opts).map_err(|e| JavascriptError::new(e))?;
-
-    let window = window().map_or_else(|| Err(FrontendError::WindowMissing), |w| Ok(w))?;
-    let result = JsFuture::from(window.fetch_with_request(&request)).await;
-    let resp_value = result.map_err(|e| JavascriptError::new(e))?;
-    let resp: Res = resp_value.dyn_into().map_err(|e| JavascriptError::new(e))?;
-
-    let resp_text = JsFuture::from(resp.text().map_err(|e| JavascriptError::new(e))?)
-        .await
-        .map_err(|e| JavascriptError::new(e))?
-        .as_string();
-
-    if let Some(text) = resp_text {
-        let result: Response<add::ResponseData> = serde_json::from_str(&text)?;
-        if let Some(content) = result.data {
-            return Ok(content.add);
-        }
-        return Err(FrontendError::GraphqlError(
-            result
-                .errors
-                .into_iter()
-                .flat_map(|e| e.into_iter())
-                .collect(),
-        ));
-    }
-    Ok(1)
 }
 
 impl Component for Adder {
