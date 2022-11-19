@@ -17,6 +17,14 @@ use crate::error::FrontendError;
 )]
 pub struct Add;
 
+#[derive(GraphQLQuery)]
+#[graphql(
+    schema_path = "./graphql/schema.graphql",
+    query_path = "./graphql/settings.graphql",
+    response_derives = "Debug"
+)]
+pub struct Settings;
+
 // ---------------------------------------------------
 // helper methods
 

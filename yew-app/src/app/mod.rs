@@ -1,4 +1,5 @@
 use lazy_static::lazy_static;
+use log::error;
 use patternfly_yew::BackdropViewer;
 use patternfly_yew::Nav;
 use patternfly_yew::NavItem;
@@ -7,6 +8,7 @@ use patternfly_yew::Page;
 use patternfly_yew::PageSidebar;
 use patternfly_yew::ToastViewer;
 use reqwest::Url;
+use wasm_bindgen_futures::spawn_local;
 use yew::MouseEvent;
 use yew::{html, html_nested, Html};
 use yew::{Callback, Context};
@@ -23,6 +25,8 @@ use yew_router::prelude::Switch;
 use yew_router::router::{Render, Router};
 
 use crate::app::components::adder::Adder;
+use crate::graphql::settings::{ResponseData, SettingsAuthentication};
+use crate::graphql::{query, settings, Settings};
 
 mod components;
 mod pages;
@@ -47,11 +51,11 @@ lazy_static! {
     static ref HOME_URL: Url = format!("{}/", crate::graphql::host()).parse().unwrap();
 }
 
-pub struct Model {
-    oauth2_config: Config,
+pub struct App {
+    oauth2_config: Option<Config>,
 }
 
-impl Model {
+impl App {
     fn switch_main() -> Render<AppRoute, ()> {
         Router::render(|switch| {
             Self::page(
@@ -115,8 +119,12 @@ impl Model {
     }
 }
 
-impl yew::Component for Model {
-    type Message = ();
+pub enum AppMessage {
+    AuthenticationData(Config),
+}
+
+impl yew::Component for App {
+    type Message = AppMessage;
     type Properties = ();
     fn create(_: &Context<Self>) -> Self {
         let oauth2_config: Config = Config {
@@ -127,31 +135,72 @@ impl yew::Component for Model {
                 .to_owned(),
         };
 
-        Self { oauth2_config }
+        Self {
+            oauth2_config: None,
+        }
+    }
+    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            AppMessage::AuthenticationData(config) => {
+                self.oauth2_config = Some(config);
+                true
+            }
+        }
     }
 
     fn view(&self, _: &Context<Self>) -> Html {
-        html! {
-        <OAuth2 config={self.oauth2_config.clone()}>
-            <Failure>{"Fail"}</Failure>
-            <Authenticated>
-                <BackdropViewer/>
-                <ToastViewer/>
+        if let Some(oauth2_config) = self.oauth2_config.as_ref() {
+            html! {
+            <OAuth2 config={oauth2_config.clone()}>
+                <Failure>{"Fail"}</Failure>
+                <Authenticated>
+                    <BackdropViewer/>
+                    <ToastViewer/>
 
-                <Router<AppRoute, ()>
-                    redirect = {Router::redirect(|_|AppRoute::Home)}
-                    render = {Self::switch_main()}
-                />
-            </Authenticated>
-            <NotAuthenticated>
-                <Router<AppRoute, ()>
-                    redirect = {Router::redirect(|_|AppRoute::Home)}
-                    render = {Self::switch_unauthenticated()}
-                />
+                    <Router<AppRoute, ()>
+                        redirect = {Router::redirect(|_|AppRoute::Home)}
+                        render = {Self::switch_main()}
+                    />
+                </Authenticated>
+                <NotAuthenticated>
+                    <Router<AppRoute, ()>
+                        redirect = {Router::redirect(|_|AppRoute::Home)}
+                        render = {Self::switch_unauthenticated()}
+                    />
 
-            </NotAuthenticated>
+                </NotAuthenticated>
 
-        </OAuth2>
+            </OAuth2>
+            }
+        } else {
+            html! {
+                <h1>{"Fetching"}</h1>
+            }
+        }
+    }
+    fn rendered(&mut self, ctx: &Context<Self>, first_render: bool) {
+        if first_render {
+            let scope = ctx.link().clone();
+            spawn_local(async move {
+                let result = query::<Settings, _>(scope.clone(), settings::Variables {}).await;
+                match result {
+                    Ok(ResponseData {
+                        authentication:
+                            SettingsAuthentication {
+                                auth_url,
+                                client_id,
+                                token_url,
+                            },
+                    }) => {
+                        scope.send_message(AppMessage::AuthenticationData(Config {
+                            client_id,
+                            auth_url,
+                            token_url,
+                        }));
+                    }
+                    Err(err) => error!("Error on server {err:?}"),
+                }
+            });
         }
     }
 }

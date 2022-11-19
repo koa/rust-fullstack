@@ -17,28 +17,35 @@ use serde::{Deserialize, Serialize};
 use static_files::Resource;
 use thiserror::Error;
 
+use backend_impl::context::UserInfo;
 use backend_impl::create_schema;
 use backend_impl::Query;
 
 include!(concat!(env!("OUT_DIR"), "/generated.rs"));
+
 async fn graphql(
     context: Data<ApplicationContext>,
-    user: Option<AuthenticatedUser<FoundClaims>>,
+    user: Option<AuthenticatedUser<UserInfo>>,
     request: GraphQLRequest,
 ) -> GraphQLResponse {
-    info!("User: {user:?}");
     let schema = &context.schema;
     let histogram = context.graphql_request_histogram.clone();
-    let inner_request = request.into_inner();
+    let request = request.into_inner();
     let timer = histogram
         .with_label_values(&[
-            inner_request.operation_name.as_deref().unwrap_or_default(),
+            request.operation_name.as_deref().unwrap_or_default(),
             user.as_ref()
                 .map(|u| u.claims.name.as_str())
                 .unwrap_or_default(),
         ])
         .start_timer();
-    let response = schema.execute(inner_request).await;
+    let request = if let Some(AuthenticatedUser { jwt: _, claims }) = user {
+        request.data(claims)
+    } else {
+        request
+    };
+
+    let response = schema.execute(request).await;
     timer.stop_and_record();
     response.into()
 }
@@ -52,16 +59,6 @@ async fn health() -> &'static str {
 struct ApplicationContext {
     graphql_request_histogram: HistogramVec,
     schema: Schema<Query, EmptyMutation, EmptySubscription>,
-}
-
-#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
-pub struct FoundClaims {
-    pub iss: String,
-    pub sub: String,
-    pub aud: String,
-    pub name: String,
-    pub email: Option<String>,
-    pub email_verified: Option<bool>,
 }
 
 #[derive(Error, Debug)]
@@ -96,14 +93,16 @@ async fn main() -> Result<(), BackendError> {
     registry.register(Box::new(graphql_request_histogram.clone()))?;
 
     let schema = create_schema();
+    info!("Schema: \n{}", schema.sdl());
 
     let validation_options = ValidationOptions::default();
-    let test_issuer = "http://localhost:8082/realms/rust-test".to_string();
-    let created_validator = OIDCValidator::new_from_issuer(test_issuer.clone(), validation_options)
+    let issuer = "http://localhost:8082/realms/rust-test".to_string();
+    let created_validator = OIDCValidator::new_from_issuer(issuer.clone(), validation_options)
         .await
         .unwrap();
+
     let validator_config = OIDCValidatorConfig {
-        issuer: test_issuer,
+        issuer,
         validator: created_validator,
     };
 

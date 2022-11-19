@@ -13,5 +13,5 @@ pub fn init_panic_hook() {
 
 fn main() {
     wasm_logger::init(wasm_logger::Config::new(Level::Debug));
-    start_app::<app::Model>();
+    start_app::<app::App>();
 }

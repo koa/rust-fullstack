@@ -1,4 +1,9 @@
-use async_graphql::{EmptyMutation, EmptySubscription, Object, Schema};
+use async_graphql::{Context, EmptyMutation, EmptySubscription, Object, Schema, SimpleObject};
+use log::info;
+use serde::{Deserialize, Serialize};
+
+use crate::config::CONFIG;
+use crate::context::UserInfo;
 
 pub fn add(left: usize, right: usize) -> usize {
     left + right
@@ -8,11 +13,29 @@ pub struct Query;
 
 #[Object]
 impl Query {
+    /// gives the coordinates for authentication
+    async fn authentication(&self) -> AuthenticationData {
+        AuthenticationData {
+            client_id: CONFIG.auth.client_id.clone(),
+            auth_url: CONFIG.auth.get_auth_url(),
+            token_url: CONFIG.auth.get_token_url(),
+        }
+    }
     /// Returns the sum of a and b
-    async fn add(&self, a: i32, b: i32) -> i32 {
-        a + b
+    async fn add(&self, ctx: &Context<'_>, a: i32, b: i32) -> async_graphql::Result<i32> {
+        let auth: &UserInfo = ctx.data()?;
+        info!("User: {}", auth.name);
+        Ok(a + b)
     }
 }
+
+#[derive(SimpleObject)]
+struct AuthenticationData {
+    client_id: String,
+    token_url: String,
+    auth_url: String,
+}
+
 pub type GraphqlSchema = Schema<Query, EmptyMutation, EmptySubscription>;
 
 pub fn create_schema() -> GraphqlSchema {
@@ -21,3 +44,18 @@ pub fn create_schema() -> GraphqlSchema {
 
 #[cfg(test)]
 mod tests {}
+
+pub mod config;
+pub mod context {
+    use serde::{Deserialize, Serialize};
+
+    #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+    pub struct UserInfo {
+        pub iss: String,
+        pub sub: String,
+        pub aud: String,
+        pub name: String,
+        pub email: Option<String>,
+        pub email_verified: Option<bool>,
+    }
+}
