@@ -14,6 +14,7 @@ use env_logger::Env;
 use log::info;
 use prometheus::{histogram_opts, HistogramVec};
 use serde::{Deserialize, Serialize};
+use static_files::Resource;
 use thiserror::Error;
 
 use backend_impl::create_schema;
@@ -111,7 +112,8 @@ async fn main() -> Result<(), BackendError> {
         schema,
     });
     let main_server = HttpServer::new(move || {
-        let resources = generate();
+        let resources: HashMap<&str, Resource> = generate();
+
         App::new()
             .wrap(prometheus.clone())
             .app_data(data.clone())
@@ -120,7 +122,7 @@ async fn main() -> Result<(), BackendError> {
             .service(resource("/graphql").guard(Post()).to(graphql))
             // workaround for proxy troubles
             .service(resource("/graphql/").guard(Post()).to(graphql))
-            .service(ResourceFiles::new("/", resources))
+            .service(ResourceFiles::new("/", resources).resolve_not_found_to_root())
     })
     .bind((bind_addr, api_port))?
     .run();

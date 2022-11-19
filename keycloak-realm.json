@@ -688,7 +688,7 @@
       "clientId": "rust-fullstack",
       "name": "Rust Fullstack Client",
       "description": "",
-      "rootUrl": "http://localhost:8081",
+      "rootUrl": "http://localhost:8080",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -696,7 +696,8 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "http://localhost:8081/*"
+        "http://localhost:8081/*",
+        "http://localhost:8080/*"
       ],
       "webOrigins": [
         "*"
