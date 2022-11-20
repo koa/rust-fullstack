@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: Prepare trunk
+      run: cargo install trunk
     - name: Build Backend
       run: cargo build -p backend-impl
     - name: Build Yew
