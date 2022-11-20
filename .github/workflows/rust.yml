@@ -18,8 +18,10 @@ jobs:
     - uses: actions/checkout@v3
     - name: Build Backend
       run: cargo build -p backend-impl
-    - name: Build Yes
-      run: cd yew-app && trunk build
+    - uses: jetli/trunk-action@v0.1.0
+      name: Build Yew
+      working-directory: yew-app
+      run: trunk build
     - name: Build Binary
       run: cargo build -p backend-artifact
     - name: Run Clippy
