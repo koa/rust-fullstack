@@ -23,16 +23,25 @@ jobs:
         toolchain: stable
         target: wasm32-unknown-unknown
         override: true
-    - name: Install Trunk
-      run: cargo install trunk
+    - name: Install Cargo modules
+      run: cargo install trunk clippy-sarif sarif-fmt
     - name: Build Backend
-      run: cargo build -p backend-impl
+      run: cargo build -p backend-impl --release
     - name: Build Yew
       working-directory: yew-app
-      run: trunk build
+      run: trunk build --release
     - name: Build Backend
-      run: cargo build -p backend-artifact
-    - name: Run Clippy
-      run: cargo clippy
+      run: cargo build -p backend-artifact --release
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test
+    - name: Run rust-clippy
+      run:
+        cargo clippy
+        --all-features
+        --message-format=json | clippy-sarif | tee rust-clippy-results.sarif | sarif-fmt
+      continue-on-error: true
+    - name: Upload analysis results to GitHub
+      uses: github/codeql-action/upload-sarif@v1
+      with:
+        sarif_file: rust-clippy-results.sarif
+        wait-for-processing: true
