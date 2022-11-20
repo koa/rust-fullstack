@@ -15,8 +15,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+    - name: Cache Cargo
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+        key: ${{ runner.os }}-cargo-1
+    - name: Cache Target
+      uses: actions/cache@v3
+      with:
+        path: target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Install wasm32
       uses: actions-rs/toolchain@v1
       with:
@@ -25,6 +37,8 @@ jobs:
         override: true
     - name: Install Cargo modules
       run: cargo install trunk clippy-sarif sarif-fmt
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Build Backend
       run: cargo build -p backend-impl --release
     - name: Build Yew
@@ -45,3 +59,5 @@ jobs:
         wait-for-processing: true
     - name: Run tests
       run: cargo test --release
+    - name: Create Docker file
+      uses: docker/build-push-action@v3
