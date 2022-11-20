@@ -26,6 +26,8 @@ jobs:
         toolchain: stable
         target: wasm32-unknown-unknown
         override: true
+    - name: Install Trunk
+      run: cargo install trunk
     - name: Build Backend
       run: cargo build -p backend-impl
     - name: Build Yew
