@@ -25,7 +25,7 @@ jobs:
       with:
         toolchain: stable
         override: true
-        components: clippy trunk
+        components: clippy, trunk
     - name: Build Backend
       run: cargo build -p backend-impl
     - name: Build Yew
