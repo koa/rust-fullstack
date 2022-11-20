@@ -39,7 +39,9 @@ jobs:
     - name: Cache Target
       uses: actions/cache@v3
       with:
-        path: target/
+        path: |
+          target/
+
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Build Backend
       run: cargo build -p backend-impl --release
@@ -63,3 +65,5 @@ jobs:
       run: cargo test --release
     - name: Create Docker file
       uses: docker/build-push-action@v3
+      with:
+        context: .
