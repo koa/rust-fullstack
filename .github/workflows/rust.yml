@@ -32,8 +32,6 @@ jobs:
       run: trunk build --release
     - name: Build Backend
       run: cargo build -p backend-artifact --release
-    - name: Run tests
-      run: cargo test
     - name: Run rust-clippy
       run:
         cargo clippy
@@ -45,3 +43,5 @@ jobs:
       with:
         sarif_file: rust-clippy-results.sarif
         wait-for-processing: true
+    - name: Run tests
+      run: cargo test --release
