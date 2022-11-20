@@ -20,6 +20,7 @@ jobs:
       run: cargo build -p backend-impl
     - name: Build Yew
       working-directory: yew-app
+      run: trunk build
     - name: Build Binary
       run: cargo build -p backend-artifact
     - name: Run Clippy
