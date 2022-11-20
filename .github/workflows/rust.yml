@@ -24,11 +24,6 @@ jobs:
           ~/.cargo/registry/cache/
           ~/.cargo/git/db/
         key: ${{ runner.os }}-cargo-1
-    - name: Cache Target
-      uses: actions/cache@v3
-      with:
-        path: target/
-        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Install wasm32
       uses: actions-rs/toolchain@v1
       with:
@@ -39,6 +34,11 @@ jobs:
       run: cargo install trunk clippy-sarif sarif-fmt
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Cache Target
+      uses: actions/cache@v3
+      with:
+        path: target/
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Build Backend
       run: cargo build -p backend-impl --release
     - name: Build Yew
