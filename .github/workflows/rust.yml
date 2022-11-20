@@ -21,11 +21,6 @@ jobs:
         toolchain: stable
         target: wasm32-unknown-unknown
         override: true
-    - uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        override: true
-        components: clippy, trunk
     - name: Build Backend
       run: cargo build -p backend-impl
     - name: Build Yew
