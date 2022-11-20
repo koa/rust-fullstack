@@ -53,11 +53,9 @@ jobs:
         --message-format=json | clippy-sarif | tee rust-clippy-results.sarif | sarif-fmt
       continue-on-error: true
     - name: Upload analysis results to GitHub
-      uses: github/codeql-action/upload-sarif@v1
+      uses: github/codeql-action/upload-sarif@v2
       with:
         sarif_file: rust-clippy-results.sarif
         wait-for-processing: true
     - name: Run tests
       run: cargo test --release
-    - name: Create Docker file
-      uses: docker/build-push-action@v3
