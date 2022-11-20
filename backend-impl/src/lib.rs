@@ -1,6 +1,4 @@
 use async_graphql::{Context, EmptyMutation, EmptySubscription, Object, Schema, SimpleObject};
-use log::info;
-use serde::{Deserialize, Serialize};
 
 use crate::config::CONFIG;
 use crate::context::UserInfo;
@@ -16,22 +14,21 @@ impl Query {
     /// gives the coordinates for authentication
     async fn authentication(&self) -> AuthenticationData {
         AuthenticationData {
-            client_id: CONFIG.auth.client_id.clone(),
+            client_id: &CONFIG.auth.client_id,
             auth_url: CONFIG.auth.get_auth_url(),
             token_url: CONFIG.auth.get_token_url(),
         }
     }
     /// Returns the sum of a and b
     async fn add(&self, ctx: &Context<'_>, a: i32, b: i32) -> async_graphql::Result<i32> {
-        let auth: &UserInfo = ctx.data()?;
-        info!("User: {}", auth.name);
+        ctx.data::<UserInfo>()?;
         Ok(a + b)
     }
 }
 
 #[derive(SimpleObject)]
 struct AuthenticationData {
-    client_id: String,
+    client_id: &'static str,
     token_url: String,
     auth_url: String,
 }

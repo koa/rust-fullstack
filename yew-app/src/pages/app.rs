@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use log::error;
+use log::{error, info};
 use patternfly_yew::BackdropViewer;
 use patternfly_yew::Nav;
 use patternfly_yew::NavItem;
@@ -8,7 +8,9 @@ use patternfly_yew::Page;
 use patternfly_yew::PageSidebar;
 use patternfly_yew::ToastViewer;
 use reqwest::Url;
+use stylist::yew::use_media_query;
 use wasm_bindgen_futures::spawn_local;
+use web_sys::window;
 use yew::MouseEvent;
 use yew::{html, html_nested, Html};
 use yew::{Callback, Context};
@@ -24,12 +26,9 @@ use yew_oauth2::prelude::NotAuthenticated;
 use yew_router::prelude::Switch;
 use yew_router::router::{Render, Router};
 
-use crate::app::components::adder::Adder;
 use crate::graphql::settings::{ResponseData, SettingsAuthentication};
 use crate::graphql::{query, settings, Settings};
-
-mod components;
-mod pages;
+use crate::pages::adder::Adder;
 
 #[derive(Switch, Debug, Clone, PartialEq, Eq)]
 pub enum AppRoute {
@@ -86,6 +85,9 @@ impl App {
         let login: Callback<MouseEvent> = Callback::from(|_: MouseEvent| {
             OAuth2Dispatcher::<Client>::new().start_login();
         });
+        let resize: Callback<MouseEvent> = Callback::from(|_: MouseEvent| {
+            OAuth2Dispatcher::<Client>::new().start_login();
+        });
 
         let sidebar = if logged_in {
             html_nested! {
@@ -126,7 +128,12 @@ pub enum AppMessage {
 impl yew::Component for App {
     type Message = AppMessage;
     type Properties = ();
-    fn create(_: &Context<Self>) -> Self {
+    fn create(ctx: &Context<Self>) -> Self {
+        window()
+            .expect("No window found")
+            .document()
+            .expect("No Doument")
+            .set_onresize(Some(|s| info!("Size: {}", s)));
         let oauth2_config: Config = Config {
             client_id: "rust-fullstack".to_owned(),
             token_url: "http://localhost:8082/realms/rust-test/protocol/openid-connect/token"

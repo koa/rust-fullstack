@@ -26,6 +26,8 @@ openidconnect = { version = "2.2", default-features = false, features = ["reqwes
 js-sys = "0.3.6"
 lazy_static = "1.4.0"
 console_error_panic_hook = "0.1.7"
+stylist = { version = "0.10.1", features = ["yew_use_media_query"] }
+#gloo-events = "0.1.2"
 
 
 [build-dependencies]

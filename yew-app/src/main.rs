@@ -2,9 +2,12 @@ use log::Level;
 use wasm_bindgen::prelude::wasm_bindgen;
 use yew::start_app;
 
-mod app;
+use pages::app::App;
+
+pub mod components;
 mod error;
 mod graphql;
+pub mod pages;
 
 #[wasm_bindgen]
 pub fn init_panic_hook() {
@@ -12,6 +15,6 @@ pub fn init_panic_hook() {
 }
 
 fn main() {
-    wasm_logger::init(wasm_logger::Config::new(Level::Debug));
-    start_app::<app::App>();
+    wasm_logger::init(wasm_logger::Config::new(Level::Info));
+    start_app::<App>();
 }

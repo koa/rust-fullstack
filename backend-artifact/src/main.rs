@@ -11,9 +11,7 @@ use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
 use biscuit::ValidationOptions;
 use env_logger::Env;
-use log::info;
 use prometheus::{histogram_opts, HistogramVec};
-use serde::{Deserialize, Serialize};
 use static_files::Resource;
 use thiserror::Error;
 
@@ -93,7 +91,6 @@ async fn main() -> Result<(), BackendError> {
     registry.register(Box::new(graphql_request_histogram.clone()))?;
 
     let schema = create_schema();
-    info!("Schema: \n{}", schema.sdl());
 
     let validation_options = ValidationOptions::default();
     let issuer = "http://localhost:8082/realms/rust-test".to_string();
