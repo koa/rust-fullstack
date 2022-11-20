@@ -16,7 +16,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build Backend      
-      run: cargo build -p backend-impl --verbose
+    - name: Build Backend
+      run: cargo build -p backend-impl
+    - name: Build Yes
+      run: cd yew-app && trunk build
+    - name: Build Binary
+      run: cargo build -p backend-artifact
+    - name: Run Clippy
+      run: cargo clippy
     - name: Run tests
       run: cargo test --verbose
