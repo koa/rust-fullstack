@@ -1,15 +1,13 @@
-use std::fs::File;
-
+use config::{Config, Environment, File, FileFormat};
 use lazy_static::lazy_static;
-use serde::{Deserialize, Serialize};
+use serde::Deserialize;
+use std::net::IpAddr;
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Debug, Deserialize)]
 pub struct Auth {
     pub client_id: String,
     pub issuer: String,
-    // "http://localhost:8082/realms/rust-test/protocol/openid-connect/token"
     token_url: Option<String>,
-    // "http://localhost:8082/realms/rust-test/protocol/openid-connect/auth"
     auth_url: Option<String>,
 }
 
@@ -26,12 +24,41 @@ impl Auth {
     }
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Config {
+#[derive(Debug, Deserialize, Default)]
+pub struct Server {
+    port: Option<u16>,
+    mgmt_port: Option<u16>,
+    bind_address: Option<IpAddr>,
+}
+
+impl Server {
+    pub fn get_port(&self) -> u16 {
+        self.port.unwrap_or(8080)
+    }
+    pub fn get_mgmt_port(&self) -> u16 {
+        self.mgmt_port.unwrap_or_else(|| self.get_port() + 1000)
+    }
+    pub fn get_bind_address(&self) -> IpAddr {
+        self.bind_address.unwrap_or_else(|| IpAddr::from([0u8; 16]))
+    }
+}
+
+#[derive(Debug, Deserialize)]
+pub struct Settings {
     pub auth: Auth,
+    pub server: Server,
+}
+
+impl Default for Settings {
+    fn default() -> Self {
+        let settings = Config::builder()
+            .add_source(File::new("config.yaml", FileFormat::Yaml))
+            .add_source(Environment::default().separator("_"))
+            .build()
+            .expect("Cannot load config");
+        settings.try_deserialize().expect("Cannot parse config")
+    }
 }
 lazy_static! {
-    pub static ref CONFIG: Config =
-        serde_yaml::from_reader(File::open("config.yaml").expect("Cannot find config.yaml"))
-            .expect("Error reading config.yaml");
+    pub static ref CONFIG: Settings = Default::default();
 }

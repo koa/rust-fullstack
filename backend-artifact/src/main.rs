@@ -9,6 +9,7 @@ use actix_web_static_files::ResourceFiles;
 use async_graphql::futures_util::future::join_all;
 use async_graphql::{EmptyMutation, EmptySubscription, Schema};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
+use backend_impl::config::CONFIG;
 use biscuit::ValidationOptions;
 use env_logger::Env;
 use prometheus::{histogram_opts, HistogramVec};
@@ -69,11 +70,11 @@ enum BackendError {
 
 #[actix_web::main]
 async fn main() -> Result<(), BackendError> {
-    env_logger::init_from_env(Env::default().filter_or("MY_LOG_LEVEL", "debug"));
+    env_logger::init_from_env(Env::default().filter_or("LOG_LEVEL", "debug"));
 
-    let bind_addr = "127.0.0.1";
-    let api_port = 8080;
-    let mgmt_port = 9080;
+    let bind_addr = CONFIG.server.get_bind_address();
+    let api_port = CONFIG.server.get_port();
+    let mgmt_port = CONFIG.server.get_mgmt_port();
 
     let mut labels = HashMap::new();
     labels.insert("server".to_string(), "api".to_string());
@@ -93,7 +94,8 @@ async fn main() -> Result<(), BackendError> {
     let schema = create_schema();
 
     let validation_options = ValidationOptions::default();
-    let issuer = "http://localhost:8082/realms/rust-test".to_string();
+
+    let issuer = CONFIG.auth.issuer.to_string();
     let created_validator = OIDCValidator::new_from_issuer(issuer.clone(), validation_options)
         .await
         .unwrap();

@@ -44,9 +44,9 @@ mod tests {}
 
 pub mod config;
 pub mod context {
-    use serde::{Deserialize, Serialize};
+    use serde::Deserialize;
 
-    #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+    #[derive(Debug, PartialEq, Eq, Clone, Deserialize)]
     pub struct UserInfo {
         pub iss: String,
         pub sub: String,
