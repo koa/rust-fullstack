@@ -44,15 +44,13 @@ impl Error for JavascriptError {}
 #[derive(Error, Debug)]
 pub enum FrontendError {
     #[error("Generic Javascript error")]
-    JSError(#[from] JavascriptError),
-    #[error("Cannot find Window reference")]
-    WindowMissing,
+    JS(#[from] JavascriptError),
     #[error("Cannot convert json")]
-    SerdeError(#[from] serde_json::Error),
+    Serde(#[from] serde_json::Error),
     #[error("Graphql Execution Error")]
-    GraphqlError(Vec<graphql_client::Error>),
+    Graphql(Vec<graphql_client::Error>),
     #[error("Error on http request")]
-    ReqwestError(#[from] reqwest::Error),
+    Reqwest(#[from] reqwest::Error),
     #[error("Invalid http header")]
-    InvalidHeaderError(#[from] InvalidHeaderValue),
+    InvalidHeader(#[from] InvalidHeaderValue),
 }

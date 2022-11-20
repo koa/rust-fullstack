@@ -1,5 +1,5 @@
 use lazy_static::lazy_static;
-use log::{error, info};
+use log::error;
 use patternfly_yew::BackdropViewer;
 use patternfly_yew::Nav;
 use patternfly_yew::NavItem;
@@ -8,9 +8,7 @@ use patternfly_yew::Page;
 use patternfly_yew::PageSidebar;
 use patternfly_yew::ToastViewer;
 use reqwest::Url;
-use stylist::yew::use_media_query;
 use wasm_bindgen_futures::spawn_local;
-use web_sys::window;
 use yew::MouseEvent;
 use yew::{html, html_nested, Html};
 use yew::{Callback, Context};
@@ -62,6 +60,7 @@ impl App {
                     AppRoute::Home => html! {<h1>{"Home"}</h1>},
                     AppRoute::Secure => html! {<h1>{"Secure"}</h1>},
                     AppRoute::NotFound => html! {<h1>{"Not Found"}</h1>},
+                    #[allow(clippy::let_unit_value)]
                     AppRoute::Add => html! {<Adder/>},
                     AppRoute::LoginRedirect => html! {<h1>{"Login redirect"}</h1>},
                     AppRoute::Login => html! {<h1>{"Login"}</h1>},
@@ -85,10 +84,6 @@ impl App {
         let login: Callback<MouseEvent> = Callback::from(|_: MouseEvent| {
             OAuth2Dispatcher::<Client>::new().start_login();
         });
-        let resize: Callback<MouseEvent> = Callback::from(|_: MouseEvent| {
-            OAuth2Dispatcher::<Client>::new().start_login();
-        });
-
         let sidebar = if logged_in {
             html_nested! {
             <PageSidebar>
@@ -128,25 +123,12 @@ pub enum AppMessage {
 impl yew::Component for App {
     type Message = AppMessage;
     type Properties = ();
-    fn create(ctx: &Context<Self>) -> Self {
-        window()
-            .expect("No window found")
-            .document()
-            .expect("No Doument")
-            .set_onresize(Some(|s| info!("Size: {}", s)));
-        let oauth2_config: Config = Config {
-            client_id: "rust-fullstack".to_owned(),
-            token_url: "http://localhost:8082/realms/rust-test/protocol/openid-connect/token"
-                .to_owned(),
-            auth_url: "http://localhost:8082/realms/rust-test/protocol/openid-connect/auth"
-                .to_owned(),
-        };
-
+    fn create(_ctx: &Context<Self>) -> Self {
         Self {
             oauth2_config: None,
         }
     }
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
+    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
             AppMessage::AuthenticationData(config) => {
                 self.oauth2_config = Some(config);

@@ -59,8 +59,6 @@ pub async fn query<Q: GraphQLQuery, S: Component>(
     if let Some(data) = response.data {
         Ok(data)
     } else {
-        Err(FrontendError::GraphqlError(
-            response.errors.unwrap_or_default(),
-        ))
+        Err(FrontendError::Graphql(response.errors.unwrap_or_default()))
     }
 }
