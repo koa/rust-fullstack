@@ -608,7 +608,6 @@ dependencies = [
  "serde",
  "static-files",
  "thiserror",
- "tokio",
 ]
 
 [[package]]
