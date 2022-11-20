@@ -16,6 +16,7 @@ jobs:
 
     steps:
     - name: Cache Cargo
+      id: cache-cargo
       uses: actions/cache@v3
       with:
         path: |
@@ -31,6 +32,7 @@ jobs:
         target: wasm32-unknown-unknown
         override: true
     - name: Install Cargo modules
+      if: steps.cache-cargo.outputs.cache-hit != 'true'
       run: cargo install trunk clippy-sarif sarif-fmt
     - name: Checkout
       uses: actions/checkout@v3
