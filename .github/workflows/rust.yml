@@ -32,7 +32,6 @@ jobs:
         target: wasm32-unknown-unknown
         override: true
     - name: Install Cargo modules
-      if: steps.cache-cargo.outputs.cache-hit != 'true'
       run: cargo install trunk clippy clippy-sarif sarif-fmt
     - name: Checkout
       uses: actions/checkout@v3
@@ -70,7 +69,7 @@ jobs:
       run:
         cargo clippy
         --all-features
-        --message-format=json > ../clippy-out
+        --message-format=json >> ../clippy-out
       continue-on-error: true
 
     - name: Build Deploy Artifact
@@ -81,7 +80,7 @@ jobs:
       run:
         cargo clippy
         --all-features
-        --message-format=json  > ../clippy-out
+        --message-format=json  >> ../clippy-out
       continue-on-error: true
     - name: Run tests on Deploy Artifact
       working-directory: backend-artifact
@@ -89,8 +88,10 @@ jobs:
 
     - name: Collect all clippy results
       run: clippy-sarif clippy-out | sarif-fmt >rust-clippy-results.sarif
+      continue-on-error: true
     - name: Upload analysis results to GitHub
       uses: github/codeql-action/upload-sarif@v2
+      continue-on-error: true
       with:
         sarif_file: rust-clippy-results.sarif
         wait-for-processing: true
