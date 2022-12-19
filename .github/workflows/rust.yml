@@ -51,8 +51,15 @@ jobs:
       run:
         cargo clippy
         --all-features
-        --message-format=json > ../clippy-out
+        --message-format=json | tee rust-clippy-results.sarif | sarif-fmt
       continue-on-error: true
+    - name: Upload analysis results to GitHub
+      uses: github/codeql-action/upload-sarif@v2
+      continue-on-error: true
+      with:
+        sarif_file: rust-clippy-results.sarif
+        checkout_path: backend-impl
+        wait-for-processing: true
     - name: Run tests on Backend
       working-directory: backend-impl
       run: cargo test --release
@@ -86,12 +93,6 @@ jobs:
 
     - name: Collect all clippy results
       run: clippy-sarif clippy-out | tee rust-clippy-results.sarif | sarif-fmt
-      continue-on-error: true
-    - name: Debug Clippy results
-      run: ls
-      continue-on-error: true
-    - name: Debug Clippy results
-      run: cat rust-clippy-results.sarif
       continue-on-error: true
     - name: Upload analysis results to GitHub
       uses: github/codeql-action/upload-sarif@v2
