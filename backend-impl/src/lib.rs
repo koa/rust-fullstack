@@ -26,6 +26,8 @@ impl Query {
     }
 }
 
+fn empty() {}
+
 #[derive(SimpleObject)]
 struct AuthenticationData {
     client_id: &'static str,

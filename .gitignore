@@ -4,3 +4,6 @@
 /yew-app/node/node_modules/
 /yew-app/dist/
 /.idea
+/backend-artifact/target/
+/backend-impl/target/
+rust-clippy-results.sarif
