@@ -61,9 +61,8 @@ jobs:
       run: cargo test --release
     - name: Upload analysis results to GitHub
       uses: github/codeql-action/upload-sarif@v2
-      working-directory: backend-impl
       with:
-        sarif_file: rust-clippy-results.sarif
+        sarif_file: backend-impl/rust-clippy-results.sarif
         wait-for-processing: true
 
     - name: Build Frontend
@@ -81,9 +80,8 @@ jobs:
       run: cargo test --release
     - name: Upload analysis results to GitHub
       uses: github/codeql-action/upload-sarif@v2
-      working-directory: yew-app
       with:
-        sarif_file: rust-clippy-results.sarif
+        sarif_file: yew-app/rust-clippy-results.sarif
         wait-for-processing: true
 
 
@@ -102,9 +100,8 @@ jobs:
       run: cargo test --release
     - name: Upload analysis results to GitHub
       uses: github/codeql-action/upload-sarif@v2
-      working-directory: backend-artifact
       with:
-        sarif_file: rust-clippy-results.sarif
+        sarif_file: backend-artifact/rust-clippy-results.sarif
         wait-for-processing: true
 
     - name: Create Docker file
