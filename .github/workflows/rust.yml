@@ -20,11 +20,7 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          ~/.cargo/bin/
-          ~/.cargo/.crates2.json
-          ~/.cargo/registry/index/
-          ~/.cargo/registry/cache/
-          ~/.cargo/git/db/
+          ~/.cargo
         key: ${{ runner.os }}-cargo-1
     - name: Install wasm32
       uses: actions-rs/toolchain@v1
