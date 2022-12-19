@@ -72,9 +72,6 @@ jobs:
         --all-features
         --message-format=json > ../clippy-out
       continue-on-error: true
-    - name: Run tests on Frontend
-      working-directory: yew-app
-      run: cargo test --release
 
     - name: Build Deploy Artifact
       working-directory: backend-artifact
