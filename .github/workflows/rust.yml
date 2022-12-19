@@ -33,7 +33,7 @@ jobs:
         override: true
     - name: Install Cargo modules
       if: steps.cache-cargo.outputs.cache-hit != 'true'
-      run: cargo install trunk clippy-sarif sarif-fmt
+      run: cargo install trunk clippy clippy-sarif sarif-fmt
     - name: Checkout
       uses: actions/checkout@v3
     - name: Cache Target
@@ -88,7 +88,7 @@ jobs:
       run: cargo test --release
 
     - name: Collect all clippy results
-      run: clippy-sarif clippy-out | | sarif-fmt >rust-clippy-results.sarif
+      run: clippy-sarif clippy-out | sarif-fmt >rust-clippy-results.sarif
     - name: Upload analysis results to GitHub
       uses: github/codeql-action/upload-sarif@v2
       with:
