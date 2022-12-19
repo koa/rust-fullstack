@@ -91,6 +91,12 @@ jobs:
     - name: Collect all clippy results
       run: clippy-sarif clippy-out | sarif-fmt >rust-clippy-results.sarif
       continue-on-error: true
+    - name: Debug Clippy results
+      run: ls
+      continue-on-error: true
+    - name: Debug Clippy results
+      run: cat rust-clippy-results.sarif
+      continue-on-error: true
     - name: Upload analysis results to GitHub
       uses: github/codeql-action/upload-sarif@v2
       continue-on-error: true
