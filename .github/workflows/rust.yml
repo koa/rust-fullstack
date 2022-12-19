@@ -31,8 +31,9 @@ jobs:
         toolchain: 1.66.0
         target: wasm32-unknown-unknown
         override: true
+        components: clippy
     - name: Install Cargo modules
-      run: cargo install trunk clippy clippy-sarif sarif-fmt
+      run: cargo install trunk clippy-sarif sarif-fmt
     - name: Checkout
       uses: actions/checkout@v3
     - name: Cache Target
