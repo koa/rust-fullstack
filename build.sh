@@ -1,10 +1,8 @@
 #!/bin/sh
 
-cd backend-impl && cargo build --release &&\
-cd ../yew-app &&\
+cd yew-app &&\
 trunk clean &&\
 trunk build --release &&\
-cd ../backend-artifact &&\
-cargo build --release &&
-cd .. &&
+cd .. &&\
+cargo build -p backend-artifact --release &&
 docker build .

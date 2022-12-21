@@ -8,6 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  TERM: ansi
 
 jobs:
   build:
@@ -37,17 +38,11 @@ jobs:
       uses: actions/cache@v3
       with:
         path: |
-          backend-impl/target/
-          backend-artifact/target/
-          yew-app/target/
+          target/
 
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
-    - name: Build Backend
-      working-directory: backend-impl
-      run: cargo build --release
-    - name: Run rust-clippy on Backend
-      working-directory: backend-impl
+    - name: Run rust-clippy
       run:
         cargo clippy
         --all-features
@@ -58,38 +53,18 @@ jobs:
       continue-on-error: true
       with:
         sarif_file: backend-impl/rust-clippy-results.sarif
-        checkout_path: backend-impl
         wait-for-processing: true
-    - name: Run tests on Backend
-      working-directory: backend-impl
-      run: cargo test --release
+
+    - name: Run tests
+      run:
+        cargo test --all-features
 
     - name: Build Frontend
       working-directory: yew-app
-      env:
-        TERM: ansi
       run: trunk build --release
-    - name: Run rust-clippy on Frontend
-      working-directory: yew-app
-      run:
-        cargo clippy
-        --all-features
-        --message-format=json >> ../clippy-out
-      continue-on-error: true
 
     - name: Build Deploy Artifact
-      working-directory: backend-artifact
-      run: cargo build --release
-    - name: Run rust-clippy on Deploy Artifact
-      working-directory: backend-artifact
-      run:
-        cargo clippy
-        --all-features
-        --message-format=json  >> ../clippy-out
-      continue-on-error: true
-    - name: Run tests on Deploy Artifact
-      working-directory: backend-artifact
-      run: cargo test --release
+      run: cargo build -p backend-artifact --release
 
     - name: Create Docker file
       uses: docker/build-push-action@v3
