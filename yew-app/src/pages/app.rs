@@ -1,4 +1,4 @@
-use log::{error, info};
+use log::error;
 use patternfly_yew::BackdropViewer;
 use patternfly_yew::Nav;
 use patternfly_yew::NavItem;
