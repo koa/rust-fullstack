@@ -6,16 +6,15 @@ use actix_web::web::{resource, Data};
 use actix_web::{get, App, HttpServer};
 use actix_web_prometheus::PrometheusMetricsBuilder;
 use actix_web_static_files::ResourceFiles;
-use async_graphql::futures_util::future::join_all;
-use async_graphql::{EmptyMutation, EmptySubscription, Schema};
+use async_graphql::{futures_util::future::join_all, EmptyMutation, EmptySubscription, Schema};
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
-use backend_impl::config::CONFIG;
 use biscuit::ValidationOptions;
 use env_logger::Env;
 use prometheus::{histogram_opts, HistogramVec};
 use static_files::Resource;
 use thiserror::Error;
 
+use backend_impl::config::CONFIG;
 use backend_impl::context::UserInfo;
 use backend_impl::create_schema;
 use backend_impl::Query;
@@ -72,9 +71,9 @@ enum BackendError {
 async fn main() -> Result<(), BackendError> {
     env_logger::init_from_env(Env::default().filter_or("LOG_LEVEL", "debug"));
 
-    let bind_addr = CONFIG.server.get_bind_address();
-    let api_port = CONFIG.server.get_port();
-    let mgmt_port = CONFIG.server.get_mgmt_port();
+    let bind_addr = CONFIG.server_bind_address();
+    let api_port = CONFIG.server_port();
+    let mgmt_port = CONFIG.server_mgmt_port();
 
     let mut labels = HashMap::new();
     labels.insert("server".to_string(), "api".to_string());
@@ -95,13 +94,13 @@ async fn main() -> Result<(), BackendError> {
 
     let validation_options = ValidationOptions::default();
 
-    let issuer = CONFIG.auth.issuer.to_string();
-    let created_validator = OIDCValidator::new_from_issuer(issuer.clone(), validation_options)
+    let issuer = CONFIG.auth_issuer();
+    let created_validator = OIDCValidator::new_from_issuer(issuer.to_string(), validation_options)
         .await
         .unwrap();
 
     let validator_config = OIDCValidatorConfig {
-        issuer,
+        issuer: issuer.to_string(),
         validator: created_validator,
     };
 

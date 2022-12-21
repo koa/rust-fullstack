@@ -4,9 +4,9 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-async-graphql = "4.0.16"
+async-graphql = "5.0.4"
 lazy_static = "1.4.0"
 serde = "1.0.147"
 log = "0.4"
-config = "0.13.2"
+clap = { version = "4.0.30", features = ["derive", "env"] }
 indexmap = "=1.6.2"

@@ -1,64 +1,52 @@
-use config::{Config, Environment, File, FileFormat};
-use lazy_static::lazy_static;
-use serde::Deserialize;
 use std::net::IpAddr;
 
-#[derive(Debug, Deserialize)]
-pub struct Auth {
-    pub client_id: String,
-    pub issuer: String,
-    token_url: Option<String>,
+use clap::Parser;
+use lazy_static::lazy_static;
+use serde::Deserialize;
+
+#[derive(Parser, Deserialize)]
+#[command(author, version, about, long_about = None)]
+pub struct Settings {
+    auth_client_id: String,
+    auth_issuer: String,
+    auth_token_url: Option<String>,
     auth_url: Option<String>,
+
+    server_port: Option<u16>,
+    server_mgmt_port: Option<u16>,
+    server_bind_address: Option<IpAddr>,
 }
 
-impl Auth {
-    pub fn get_token_url(&self) -> String {
-        self.token_url
-            .clone()
-            .unwrap_or_else(|| format!("{}/protocol/openid-connect/token", self.issuer))
+impl Settings {
+    pub fn auth_client_id(&self) -> &str {
+        &self.auth_client_id
     }
-    pub fn get_auth_url(&self) -> String {
+    pub fn auth_issuer(&self) -> &str {
+        &self.auth_issuer
+    }
+    pub fn auth_token_url(&self) -> String {
+        self.auth_token_url
+            .clone()
+            .unwrap_or_else(|| format!("{}/protocol/openid-connect/token", self.auth_issuer))
+    }
+    pub fn auth_url(&self) -> String {
         self.auth_url
             .clone()
-            .unwrap_or_else(|| format!("{}/protocol/openid-connect/auth", self.issuer))
+            .unwrap_or_else(|| format!("{}/protocol/openid-connect/auth", self.auth_issuer))
+    }
+    pub fn server_port(&self) -> u16 {
+        self.server_port.unwrap_or(8080)
+    }
+    pub fn server_mgmt_port(&self) -> u16 {
+        self.server_mgmt_port
+            .unwrap_or_else(|| self.server_port() + 1000)
+    }
+    pub fn server_bind_address(&self) -> IpAddr {
+        self.server_bind_address
+            .unwrap_or_else(|| IpAddr::from([0u8; 16]))
     }
 }
 
-#[derive(Debug, Deserialize, Default)]
-pub struct Server {
-    port: Option<u16>,
-    mgmt_port: Option<u16>,
-    bind_address: Option<IpAddr>,
-}
-
-impl Server {
-    pub fn get_port(&self) -> u16 {
-        self.port.unwrap_or(8080)
-    }
-    pub fn get_mgmt_port(&self) -> u16 {
-        self.mgmt_port.unwrap_or_else(|| self.get_port() + 1000)
-    }
-    pub fn get_bind_address(&self) -> IpAddr {
-        self.bind_address.unwrap_or_else(|| IpAddr::from([0u8; 16]))
-    }
-}
-
-#[derive(Debug, Deserialize)]
-pub struct Settings {
-    pub auth: Auth,
-    pub server: Server,
-}
-
-impl Default for Settings {
-    fn default() -> Self {
-        let settings = Config::builder()
-            .add_source(File::new("config.yaml", FileFormat::Yaml))
-            .add_source(Environment::default().separator("_"))
-            .build()
-            .expect("Cannot load config");
-        settings.try_deserialize().expect("Cannot parse config")
-    }
-}
 lazy_static! {
-    pub static ref CONFIG: Settings = Default::default();
+    pub static ref CONFIG: Settings = Settings::parse();
 }

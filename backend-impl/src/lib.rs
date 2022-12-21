@@ -14,9 +14,9 @@ impl Query {
     /// gives the coordinates for authentication
     async fn authentication(&self) -> AuthenticationData {
         AuthenticationData {
-            client_id: &CONFIG.auth.client_id,
-            auth_url: CONFIG.auth.get_auth_url(),
-            token_url: CONFIG.auth.get_token_url(),
+            client_id: CONFIG.auth_client_id(),
+            auth_url: CONFIG.auth_url(),
+            token_url: CONFIG.auth_token_url(),
         }
     }
     /// Returns the sum of a and b
