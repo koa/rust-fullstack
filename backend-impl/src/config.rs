@@ -1,11 +1,10 @@
 use std::net::IpAddr;
 
-use clap::Parser;
+use config::{Config, ConfigError, Environment, File};
 use lazy_static::lazy_static;
 use serde::Deserialize;
 
-#[derive(Parser, Deserialize)]
-#[command(author, version, about, long_about = None)]
+#[derive(Deserialize)]
 pub struct Settings {
     auth_client_id: String,
     auth_issuer: String,
@@ -47,6 +46,15 @@ impl Settings {
     }
 }
 
+fn create_settings() -> Result<Settings, ConfigError> {
+    let cfg = Config::builder()
+        .add_source(File::with_name("config.yaml"))
+        .add_source(Environment::with_prefix("app"))
+        .build()?;
+    let settings: Settings = cfg.get("oauth")?;
+    Ok(settings)
+}
+
 lazy_static! {
-    pub static ref CONFIG: Settings = Settings::parse();
+    pub static ref CONFIG: Settings = create_settings().expect("Cannot load config.yaml");
 }

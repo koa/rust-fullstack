@@ -8,5 +8,5 @@ async-graphql = "5.0.4"
 lazy_static = "1.4.0"
 serde = "1.0.147"
 log = "0.4"
-clap = { version = "4.0.30", features = ["derive", "env"] }
+config = "0.13.3"
 indexmap = "=1.6.2"

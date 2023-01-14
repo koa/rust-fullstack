@@ -1,0 +1,3 @@
+oauth:
+  auth_client_id: rust-fullstack
+  auth_issuer: http://localhost:8082/realms/rust-test
