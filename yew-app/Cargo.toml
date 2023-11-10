@@ -15,7 +15,7 @@ yew-nested-router = { version = "0.1.0" }
 patternfly-yew = "0.3.0"
 graphql_client = { version = "0.11.0", features = ["reqwest-rustls"] }
 reqwest = { version = "0.11.22", feature = ["rustls-tls"] }
-serde = { version = "1.0.130", features = ["derive"] }
+serde = { version = "1.0.192", features = ["derive"] }
 serde_json = "1.0.68"
 log = "0.4"
 wasm-logger = "0.2.0"

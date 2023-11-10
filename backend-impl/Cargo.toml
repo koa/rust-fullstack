@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 async-graphql = "5.0.10"
 lazy_static = "1.4.0"
-serde = "1.0.147"
+serde = "1.0.192"
 log = "0.4"
 config = "0.13.3"
 indexmap = "=1.6.2"
