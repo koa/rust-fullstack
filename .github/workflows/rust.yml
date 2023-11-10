@@ -14,7 +14,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    concurrency: use-rust-caches
     steps:
     - name: Cache Cargo
       id: cache-cargo
