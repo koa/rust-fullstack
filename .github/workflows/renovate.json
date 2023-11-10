@@ -1,26 +1,26 @@
 {
-    "branchPrefix": "test-renovate/",
-    "username": "renovate-release",
-    "gitAuthor": "Renovate Bot <bot@berg-turbenthal.ch>",
-    "onboarding": false,
-    "platform": "github",
-    "includeForks": true,
-    "repositories": [
-        "koa/rust-fullstack"
-    ],
-    "packageRules": [
-        {
-            "description": "lockFileMaintenance",
-            "matchUpdateTypes": [
-                "pin",
-                "digest",
-                "patch",
-                "minor",
-                "major",
-                "lockFileMaintenance"
-            ],
-            "dependencyDashboardApproval": false,
-            "stabilityDays": 0
-        }
-    ]
+  "branchPrefix": "test-renovate/",
+  "username": "renovate-release",
+  "gitAuthor": "Renovate Bot <bot@berg-turbenthal.ch>",
+  "onboarding": true,
+  "platform": "github",
+  "forkProcessing": "enabled",
+  "repositories": [
+    "koa/rust-fullstack"
+  ],
+  "packageRules": [
+    {
+      "description": "lockFileMaintenance",
+      "matchUpdateTypes": [
+        "pin",
+        "digest",
+        "patch",
+        "minor",
+        "major",
+        "lockFileMaintenance"
+      ],
+      "dependencyDashboardApproval": false,
+      "minimumReleaseAge": null
+    }
+  ]
 }
