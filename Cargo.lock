@@ -4083,7 +4083,6 @@ dependencies = [
  "backend-impl",
  "console_error_panic_hook",
  "graphql_client",
- "js-sys",
  "lazy_static",
  "log",
  "openidconnect",
