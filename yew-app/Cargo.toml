@@ -24,7 +24,7 @@ thiserror = "1.0.50"
 
 yew-oauth2 = "0.5.0"
 tokio = { version = "1", features = ["sync"] }
-openidconnect = { version = "2.2", default-features = false, features = ["reqwest", "rustls-tls"] }
+openidconnect = { version = "2.5", default-features = false, features = ["reqwest", "rustls-tls"] }
 js-sys = "0.3.6"
 lazy_static = "1.4.0"
 console_error_panic_hook = "0.1.7"
