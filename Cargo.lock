@@ -646,7 +646,6 @@ version = "0.1.0"
 dependencies = [
  "async-graphql",
  "config",
- "indexmap 1.9.3",
  "lazy_static",
  "log",
  "serde",
