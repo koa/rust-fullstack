@@ -445,43 +445,13 @@ dependencies = [
 
 [[package]]
 name = "async-graphql"
-version = "5.0.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b35ef8f9be23ee30fe1eb1cf175c689bc33517c6c6d0fd0669dade611e5ced7f"
-dependencies = [
- "async-graphql-derive 5.0.10",
- "async-graphql-parser 5.0.10",
- "async-graphql-value 5.0.10",
- "async-stream",
- "async-trait",
- "base64 0.13.1",
- "bytes",
- "fnv",
- "futures-util",
- "http",
- "indexmap 1.9.3",
- "mime",
- "multer",
- "num-traits",
- "once_cell",
- "pin-project-lite",
- "regex",
- "serde",
- "serde_json",
- "serde_urlencoded",
- "static_assertions",
- "thiserror",
-]
-
-[[package]]
-name = "async-graphql"
 version = "6.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a665c228a226506796fca6de90cf1ad477157513ee15d6327bf810d5a3a98f72"
 dependencies = [
- "async-graphql-derive 6.0.10",
- "async-graphql-parser 6.0.10",
- "async-graphql-value 6.0.10",
+ "async-graphql-derive",
+ "async-graphql-parser",
+ "async-graphql-value",
  "async-stream",
  "async-trait",
  "base64 0.13.1",
@@ -507,36 +477,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "async-graphql"
-version = "6.0.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a665c228a226506796fca6de90cf1ad477157513ee15d6327bf810d5a3a98f72"
-dependencies = [
- "async-graphql-derive 6.0.10",
- "async-graphql-parser 6.0.10",
- "async-graphql-value 6.0.10",
- "async-stream",
- "async-trait",
- "base64 0.13.1",
- "bytes",
- "fnv",
- "futures-util",
- "http",
- "indexmap 2.1.0",
- "mime",
- "multer",
- "num-traits",
- "once_cell",
- "pin-project-lite",
- "regex",
- "serde",
- "serde_json",
- "serde_urlencoded",
- "static_assertions",
- "thiserror",
-]
-
-[[package]]
 name = "async-graphql-actix-web"
 version = "6.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -547,27 +487,11 @@ dependencies = [
  "actix-web",
  "actix-web-actors",
  "async-channel",
- "async-graphql 6.0.10",
+ "async-graphql",
  "async-stream",
  "futures-channel",
  "futures-util",
  "serde_json",
- "thiserror",
-]
-
-[[package]]
-name = "async-graphql-derive"
-version = "5.0.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1a0f6ceed3640b4825424da70a5107e79d48d9b2bc6318dfc666b2fc4777f8c4"
-dependencies = [
- "Inflector",
- "async-graphql-parser 5.0.10",
- "darling 0.14.4",
- "proc-macro-crate",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
  "thiserror",
 ]
 
@@ -578,7 +502,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d2f04964faf9ad71289d4c51b3b43a7b9c01c23c16d9c52bca48161ba8a3cbc3"
 dependencies = [
  "Inflector",
- "async-graphql-parser 6.0.10",
+ "async-graphql-parser",
  "darling 0.20.3",
  "proc-macro-crate",
  "proc-macro2",
@@ -590,36 +514,12 @@ dependencies = [
 
 [[package]]
 name = "async-graphql-parser"
-version = "5.0.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ecc308cd3bc611ee86c9cf19182d2b5ee583da40761970e41207f088be3db18f"
-dependencies = [
- "async-graphql-value 5.0.10",
- "pest",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "async-graphql-parser"
 version = "6.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "786a2329756a9946d83106e389a977a808ab22628cb797c1afcf174fd01c40d5"
 dependencies = [
- "async-graphql-value 6.0.10",
+ "async-graphql-value",
  "pest",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "async-graphql-value"
-version = "5.0.10"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d461325bfb04058070712296601dfe5e5bd6cdff84780a0a8c569ffb15c87eb3"
-dependencies = [
- "bytes",
- "indexmap 1.9.3",
  "serde",
  "serde_json",
 ]
@@ -728,7 +628,7 @@ dependencies = [
  "actix-web",
  "actix-web-prometheus",
  "actix-web-static-files",
- "async-graphql 6.0.10",
+ "async-graphql",
  "async-graphql-actix-web",
  "backend-impl",
  "biscuit",
@@ -744,7 +644,7 @@ dependencies = [
 name = "backend-impl"
 version = "0.1.0"
 dependencies = [
- "async-graphql 6.0.10",
+ "async-graphql",
  "config",
  "indexmap 1.9.3",
  "lazy_static",
@@ -2160,7 +2060,6 @@ checksum = "bd070e393353796e801d209ad339e89596eb4c8d430d18ede6a1cced8fafbd99"
 dependencies = [
  "autocfg",
  "hashbrown 0.12.3",
- "serde",
 ]
 
 [[package]]
