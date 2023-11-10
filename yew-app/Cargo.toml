@@ -20,7 +20,7 @@ serde_json = "1.0.108"
 log = "0.4"
 wasm-logger = "0.2.0"
 web-sys = "0.3.51"
-thiserror = "1.0.37"
+thiserror = "1.0.50"
 
 yew-oauth2 = "0.5.0"
 tokio = { version = "1", features = ["sync"] }
