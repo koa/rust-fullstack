@@ -10,7 +10,7 @@ actix-web = "4.0"
 actix-web-static-files = "4.0"
 static-files = "0.2.1"
 backend-impl = { path = "../backend-impl" }
-async-graphql = "5.0.4"
+async-graphql = "5.0.10"
 async-graphql-actix-web = "5.0.4"
 env_logger = "0.10.0"
 log = "0.4"
