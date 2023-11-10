@@ -32,4 +32,4 @@ stylist = { version = "0.11.0", features = ["yew_use_media_query"] }
 
 [build-dependencies]
 backend-impl = { path = "../backend-impl" }
-anyhow = "1.0.66"
+anyhow = "1.0.75"
