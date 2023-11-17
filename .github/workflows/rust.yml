@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        rust: [stable, nightly]
+        rust: [stable]
     steps:
     - name: Cache Cargo
       id: cache-cargo
