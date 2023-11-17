@@ -1,11 +1,7 @@
 use log::error;
-use patternfly_yew::BackdropViewer;
-use patternfly_yew::Nav;
-use patternfly_yew::NavItem;
-use patternfly_yew::NavRouterItem;
-use patternfly_yew::Page;
-use patternfly_yew::PageSidebar;
-use patternfly_yew::ToastViewer;
+use patternfly_yew::prelude::{
+    BackdropViewer, Nav, NavItem, NavRouterItem, Page, PageSidebar, ToastViewer,
+};
 use wasm_bindgen_futures::spawn_local;
 use yew::Context;
 use yew::{function_component, Callback, MouseEvent};
