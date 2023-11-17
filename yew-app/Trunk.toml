@@ -2,6 +2,8 @@
 port = 8081
 [[proxy]]
 backend = "http://localhost:8080/graphql"
+[[proxy]]
+backend = "http://localhost:8080/graphql_anonymous"
 
 [[hooks]]
 stage = "pre_build"

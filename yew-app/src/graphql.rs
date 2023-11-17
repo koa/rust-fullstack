@@ -1,6 +1,7 @@
 use graphql_client::reqwest::post_graphql;
 use graphql_client::GraphQLQuery;
 use lazy_static::lazy_static;
+use log::info;
 use reqwest::header::{HeaderMap, AUTHORIZATION};
 use yew::html::Scope;
 use yew::{Callback, Component};
@@ -19,7 +20,7 @@ pub struct Add;
 
 #[derive(GraphQLQuery)]
 #[graphql(
-    schema_path = "./graphql/schema.graphql",
+    schema_path = "./graphql/anonymous_schema.graphql",
     query_path = "./graphql/settings.graphql",
     response_derives = "Debug"
 )]
@@ -30,6 +31,7 @@ pub struct Settings;
 
 lazy_static! {
     static ref GRAPHQL_URL: String = format!("{}/graphql", host());
+    static ref GRAPHQL_ANONYMOUS_URL: String = format!("{}/graphql_anonymous", host());
 }
 
 pub fn host() -> String {
@@ -56,6 +58,19 @@ pub async fn query<Q: GraphQLQuery, S: Component>(
         .default_headers(headers)
         .build()?;
     let response = post_graphql::<Q, _>(&client, GRAPHQL_URL.as_str(), request).await?;
+    if let Some(data) = response.data {
+        Ok(data)
+    } else {
+        Err(FrontendError::Graphql(response.errors.unwrap_or_default()))
+    }
+}
+/// Send Graphql-Query to server
+pub async fn query_anonymous<Q: GraphQLQuery, S: Component>(
+    scope: Scope<S>,
+    request: Q::Variables,
+) -> Result<Q::ResponseData, FrontendError> {
+    let client = reqwest::Client::builder().build()?;
+    let response = post_graphql::<Q, _>(&client, GRAPHQL_ANONYMOUS_URL.as_str(), request).await?;
     if let Some(data) = response.data {
         Ok(data)
     } else {

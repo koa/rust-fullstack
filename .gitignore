@@ -7,3 +7,4 @@
 /backend-artifact/target/
 /backend-impl/target/
 rust-clippy-results.sarif
+/yew-app/graphql/anonymous_schema.graphql

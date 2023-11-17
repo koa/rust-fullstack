@@ -20,7 +20,7 @@ use yew_oauth2::prelude::NotAuthenticated;
 use yew_oauth2::prelude::{Authenticated, OAuth2Operations};
 
 use crate::graphql::settings::{ResponseData, SettingsAuthentication};
-use crate::graphql::{query, settings, Settings};
+use crate::graphql::{query_anonymous, settings, Settings};
 use crate::pages::adder::Adder;
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Target)]
@@ -99,7 +99,8 @@ impl yew::Component for App {
         if first_render {
             let scope = ctx.link().clone();
             spawn_local(async move {
-                let result = query::<Settings, _>(scope.clone(), settings::Variables {}).await;
+                let result =
+                    query_anonymous::<Settings, _>(scope.clone(), settings::Variables {}).await;
                 match result {
                     Ok(ResponseData {
                         authentication:

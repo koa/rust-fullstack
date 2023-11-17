@@ -39,13 +39,13 @@ dependencies = [
 
 [[package]]
 name = "actix-4-jwt-auth"
-version = "1.0.0"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d87c98c1133a56efeb5cf344b4cb4140d7d06bf55ec305d32757c141550abab6"
+checksum = "4ac23973e63fd66512cd90a9c2d2aab11462805ac74789ce66bc6672e482d41f"
 dependencies = [
  "actix-web",
  "awc",
- "biscuit 0.6.0",
+ "biscuit",
  "futures",
  "futures-core",
  "futures-util",
@@ -604,19 +604,23 @@ name = "backend-artifact"
 version = "0.1.0"
 dependencies = [
  "actix-4-jwt-auth",
+ "actix-service",
  "actix-web",
  "actix-web-prometheus",
  "actix-web-static-files",
  "async-graphql",
  "async-graphql-actix-web",
  "backend-impl",
- "biscuit 0.7.0",
  "env_logger",
+ "futures-util",
  "log",
  "prometheus",
  "serde",
+ "serde_json",
  "static-files",
  "thiserror",
+ "tracing",
+ "tracing-actix-web",
 ]
 
 [[package]]
@@ -676,22 +680,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1f45e9417d87227c7a56d22e471c6206462cba514c7590c09aff4cf6d1ddcad"
 dependencies = [
  "serde",
-]
-
-[[package]]
-name = "biscuit"
-version = "0.6.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "28865439fc81744500265d96c920985ceb6b612ef8564d43f1cc78e7a6c89e26"
-dependencies = [
- "chrono",
- "data-encoding",
- "num-bigint",
- "num-traits",
- "once_cell",
- "ring 0.16.20",
- "serde",
- "serde_json",
 ]
 
 [[package]]
@@ -1230,9 +1218,9 @@ dependencies = [
 
 [[package]]
 name = "env_logger"
-version = "0.10.0"
+version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "85cdab6a89accf66733ad5a1693a4dcced6aeff64602b634530dd73c1f3ee9f0"
+checksum = "95b3f3e67048839cb0d0781f445682a35113da7121f7c949db0e2be96a4fbece"
 dependencies = [
  "humantime",
  "is-terminal",
@@ -2019,9 +2007,9 @@ dependencies = [
 
 [[package]]
 name = "http"
-version = "0.2.9"
+version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd6effc99afb63425aff9b05836f029929e345a6148a14b7ecd5ab67af944482"
+checksum = "f95b9abcae896730d42b78e09c155ed4ddf82c07b4de772c64aee5b2d8b7c150"
 dependencies = [
  "bytes",
  "fnv",
@@ -2448,6 +2436,12 @@ dependencies = [
  "spin 0.9.8",
  "version_check",
 ]
+
+[[package]]
+name = "mutually_exclusive_features"
+version = "0.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6d02c0b00610773bb7fc61d85e13d86c7858cbdf00e1a120bfc41bc055dbaa0e"
 
 [[package]]
 name = "native-tls"
@@ -4028,6 +4022,19 @@ dependencies = [
  "pin-project-lite",
  "tracing-attributes",
  "tracing-core",
+]
+
+[[package]]
+name = "tracing-actix-web"
+version = "0.7.9"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1fe0d5feac3f4ca21ba33496bcb1ccab58cca6412b1405ae80f0581541e0ca78"
+dependencies = [
+ "actix-web",
+ "mutually_exclusive_features",
+ "pin-project",
+ "tracing",
+ "uuid",
 ]
 
 [[package]]
