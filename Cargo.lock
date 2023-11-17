@@ -493,7 +493,7 @@ checksum = "d2f04964faf9ad71289d4c51b3b43a7b9c01c23c16d9c52bca48161ba8a3cbc3"
 dependencies = [
  "Inflector",
  "async-graphql-parser",
- "darling 0.20.3",
+ "darling",
  "proc-macro-crate",
  "proc-macro2",
  "quote",
@@ -1011,36 +1011,12 @@ dependencies = [
 
 [[package]]
 name = "darling"
-version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b750cb3417fd1b327431a470f388520309479ab0bf5e323505daf0290cd3850"
-dependencies = [
- "darling_core 0.14.4",
- "darling_macro 0.14.4",
-]
-
-[[package]]
-name = "darling"
 version = "0.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0209d94da627ab5605dcccf08bb18afa5009cfbef48d8a8b7d7bdbc79be25c5e"
 dependencies = [
- "darling_core 0.20.3",
- "darling_macro 0.20.3",
-]
-
-[[package]]
-name = "darling_core"
-version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "109c1ca6e6b7f82cc233a97004ea8ed7ca123a9af07a8230878fcfda9b158bf0"
-dependencies = [
- "fnv",
- "ident_case",
- "proc-macro2",
- "quote",
- "strsim",
- "syn 1.0.109",
+ "darling_core",
+ "darling_macro",
 ]
 
 [[package]]
@@ -1059,22 +1035,11 @@ dependencies = [
 
 [[package]]
 name = "darling_macro"
-version = "0.14.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4aab4dbc9f7611d8b55048a3a16d2d010c2c8334e46304b40ac1cc14bf3b48e"
-dependencies = [
- "darling_core 0.14.4",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "darling_macro"
 version = "0.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "836a9bbc7ad63342d6d6e7b815ccab164bc77a2d95d84bc3117a8c0d5c98e2d5"
 dependencies = [
- "darling_core 0.20.3",
+ "darling_core",
  "quote",
  "syn 2.0.39",
 ]
@@ -2143,15 +2108,6 @@ checksum = "206ca75c9c03ba3d4ace2460e57b189f39f43de612c2f85836e65c929701bb2d"
 
 [[package]]
 name = "implicit-clone"
-version = "0.3.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c6ecbd987bb94f1f3c76c6787879756cf4b6f73bfff48d79308e8c56b46f65f"
-dependencies = [
- "indexmap 1.9.3",
-]
-
-[[package]]
-name = "implicit-clone"
 version = "0.4.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7a50fed6f6aa778e7946f697a88e474b4b4a83fb0849cec1ac65fa8e869319dd"
@@ -2760,7 +2716,7 @@ dependencies = [
  "gloo-events 0.2.0",
  "gloo-timers 0.3.0",
  "gloo-utils 0.2.0",
- "implicit-clone 0.4.6",
+ "implicit-clone",
  "js-sys",
  "log",
  "num-traits",
@@ -2775,7 +2731,7 @@ dependencies = [
  "web-sys",
  "yew 0.21.0",
  "yew-hooks",
- "yew-nested-router 0.4.0",
+ "yew-nested-router",
 ]
 
 [[package]]
@@ -2953,16 +2909,6 @@ name = "ppv-lite86"
 version = "0.2.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5b40af805b3121feab8a3c29f04d8ad262fa8e0561883e7653e024ae4479e6de"
-
-[[package]]
-name = "prettyplease"
-version = "0.1.25"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c8646e95016a7a6c4adea95bafa8a16baab64b583356217f2c85db4a39d9a86"
-dependencies = [
- "proc-macro2",
- "syn 1.0.109",
-]
 
 [[package]]
 name = "prettyplease"
@@ -3587,7 +3533,7 @@ version = "3.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93634eb5f75a2323b16de4748022ac4297f9e76b6dced2be287a099f41b5e788"
 dependencies = [
- "darling 0.20.3",
+ "darling",
  "proc-macro2",
  "quote",
  "syn 2.0.39",
@@ -4562,31 +4508,6 @@ dependencies = [
 
 [[package]]
 name = "yew"
-version = "0.20.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5dbecfe44343b70cc2932c3eb445425969ae21754a8ab3a0966981c1cf7af1cc"
-dependencies = [
- "console_error_panic_hook",
- "futures",
- "gloo 0.8.1",
- "implicit-clone 0.3.6",
- "indexmap 1.9.3",
- "js-sys",
- "prokio",
- "rustversion",
- "serde",
- "slab",
- "thiserror",
- "tokio",
- "tracing",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "web-sys",
- "yew-macro 0.20.0",
-]
-
-[[package]]
-name = "yew"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5f1a03f255c70c7aa3e9c62e15292f142ede0564123543c1cc0c7a4f31660cac"
@@ -4594,7 +4515,7 @@ dependencies = [
  "console_error_panic_hook",
  "futures",
  "gloo 0.10.0",
- "implicit-clone 0.4.6",
+ "implicit-clone",
  "indexmap 2.1.0",
  "js-sys",
  "prokio",
@@ -4634,7 +4555,7 @@ dependencies = [
  "wasm-logger",
  "web-sys",
  "yew 0.21.0",
- "yew-nested-router 0.1.2",
+ "yew-nested-router",
  "yew-oauth2",
  "yewtil",
 ]
@@ -4670,46 +4591,17 @@ dependencies = [
 
 [[package]]
 name = "yew-macro"
-version = "0.20.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b64c253c1d401f1ea868ca9988db63958cfa15a69f739101f338d6f05eea8301"
-dependencies = [
- "boolinator",
- "once_cell",
- "prettyplease 0.1.25",
- "proc-macro-error",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
-]
-
-[[package]]
-name = "yew-macro"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "02fd8ca5166d69e59f796500a2ce432ff751edecbbb308ca59fd3fe4d0343de2"
 dependencies = [
  "boolinator",
  "once_cell",
- "prettyplease 0.2.15",
+ "prettyplease",
  "proc-macro-error",
  "proc-macro2",
  "quote",
  "syn 2.0.39",
-]
-
-[[package]]
-name = "yew-nested-router"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "259ee0b72951cca086f13ea7e192d3727dc955d2838cd8d9e5c579fe960a7d4e"
-dependencies = [
- "gloo-history 0.1.5",
- "gloo-utils 0.1.7",
- "log",
- "web-sys",
- "yew 0.20.0",
- "yew-nested-router-macros 0.1.2",
 ]
 
 [[package]]
@@ -4726,20 +4618,7 @@ dependencies = [
  "wasm-bindgen",
  "web-sys",
  "yew 0.21.0",
- "yew-nested-router-macros 0.4.0",
-]
-
-[[package]]
-name = "yew-nested-router-macros"
-version = "0.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c72bd09df0e2c79e5f2b0b0082e1c5447a2371625ce6bbb24ab53e5754cc3bb0"
-dependencies = [
- "convert_case 0.6.0",
- "darling 0.14.4",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
+ "yew-nested-router-macros",
 ]
 
 [[package]]
@@ -4749,7 +4628,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f54fbea868d4691113743ccdb5d71485d3f528598da335384a0f1acc2238e2ff"
 dependencies = [
  "convert_case 0.6.0",
- "darling 0.20.3",
+ "darling",
  "proc-macro2",
  "quote",
  "syn 2.0.39",
