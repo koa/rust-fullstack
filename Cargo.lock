@@ -4656,7 +4656,7 @@ dependencies = [
  "wasm-bindgen-futures",
  "wasm-logger",
  "web-sys",
- "yew 0.20.0",
+ "yew 0.21.0",
  "yew-nested-router",
  "yew-oauth2",
  "yewtil",
