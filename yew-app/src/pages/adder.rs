@@ -4,7 +4,6 @@ use patternfly_yew::prelude::{Form, TextInputType};
 use wasm_bindgen_futures::spawn_local;
 use yew::html::Scope;
 use yew::prelude::{html, Component, Context, Html};
-use yew::virtual_dom::ListenerKind::onchange;
 
 use crate::graphql::{query, Add};
 

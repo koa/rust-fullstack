@@ -1,7 +1,6 @@
 use graphql_client::reqwest::post_graphql;
 use graphql_client::GraphQLQuery;
 use lazy_static::lazy_static;
-use log::info;
 use reqwest::header::{HeaderMap, AUTHORIZATION};
 use yew::html::Scope;
 use yew::{Callback, Component};
@@ -66,7 +65,7 @@ pub async fn query<Q: GraphQLQuery, S: Component>(
 }
 /// Send Graphql-Query to server
 pub async fn query_anonymous<Q: GraphQLQuery, S: Component>(
-    scope: Scope<S>,
+    _scope: Scope<S>,
     request: Q::Variables,
 ) -> Result<Q::ResponseData, FrontendError> {
     let client = reqwest::Client::builder().build()?;
