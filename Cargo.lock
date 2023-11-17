@@ -2804,7 +2804,7 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "yew 0.20.0",
- "yew-nested-router",
+ "yew-nested-router 0.1.2",
 ]
 
 [[package]]
@@ -4187,6 +4187,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "urlencoding"
+version = "2.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "daf8dba3b7eb870caf1ddeed7bc9d2a049f3cfdfae7cb521b087cc33ae4c49da"
+
+[[package]]
 name = "uuid"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4657,7 +4663,7 @@ dependencies = [
  "wasm-logger",
  "web-sys",
  "yew 0.20.0",
- "yew-nested-router",
+ "yew-nested-router 0.4.0",
  "yew-oauth2",
  "yewtil",
 ]
@@ -4716,7 +4722,24 @@ dependencies = [
  "log",
  "web-sys",
  "yew 0.20.0",
- "yew-nested-router-macros",
+ "yew-nested-router-macros 0.1.2",
+]
+
+[[package]]
+name = "yew-nested-router"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f398a0cbe7e8ef1333414afacd20400ffa6b685fe914423275d723f7f903a9cb"
+dependencies = [
+ "gloo-events 0.2.0",
+ "gloo-history 0.2.1",
+ "gloo-utils 0.2.0",
+ "log",
+ "urlencoding",
+ "wasm-bindgen",
+ "web-sys",
+ "yew 0.21.0",
+ "yew-nested-router-macros 0.4.0",
 ]
 
 [[package]]
@@ -4730,6 +4753,19 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "yew-nested-router-macros"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f54fbea868d4691113743ccdb5d71485d3f528598da335384a0f1acc2238e2ff"
+dependencies = [
+ "convert_case 0.6.0",
+ "darling 0.20.3",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.39",
 ]
 
 [[package]]
