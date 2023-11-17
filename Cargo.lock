@@ -47,7 +47,7 @@ dependencies = [
  "actix-service",
  "actix-web",
  "awc",
- "biscuit",
+ "biscuit 0.6.0",
  "bytes",
  "derive_more",
  "env_logger 0.9.3",
@@ -631,7 +631,7 @@ dependencies = [
  "async-graphql",
  "async-graphql-actix-web",
  "backend-impl",
- "biscuit",
+ "biscuit 0.7.0",
  "env_logger 0.10.0",
  "log",
  "prometheus",
@@ -711,6 +711,22 @@ dependencies = [
  "num-traits",
  "once_cell",
  "ring 0.16.20",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "biscuit"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7e28fc7c56c61743a01d0d1b73e4fed68b8a4f032ea3a2d4bb8c6520a33fc05a"
+dependencies = [
+ "chrono",
+ "data-encoding",
+ "num-bigint",
+ "num-traits",
+ "once_cell",
+ "ring 0.17.5",
  "serde",
  "serde_json",
 ]
