@@ -4624,9 +4624,9 @@ dependencies = [
 
 [[package]]
 name = "yew-oauth2"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a027a8eb1818da6962bdfcb110b25390c9cb0d5d8a0696b24fd89f54e43e533"
+checksum = "58dcb356b9f7c83c0e578f9a8c6fe5f2a83308c7a59faa53c630434d34a1a2eb"
 dependencies = [
  "async-trait",
  "gloo-storage 0.3.0",

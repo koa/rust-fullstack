@@ -21,7 +21,7 @@ wasm-logger = "0.2.0"
 web-sys = "0.3.65"
 thiserror = "1.0.50"
 
-yew-oauth2 = "0.8.0"
+yew-oauth2 = "0.9.0"
 tokio = { version = "1", features = ["sync"] }
 openidconnect = { version = "3.4", default-features = false, features = ["reqwest", "rustls-tls"] }
 lazy_static = "1.4.0"
