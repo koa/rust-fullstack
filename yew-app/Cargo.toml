@@ -11,7 +11,7 @@ wasm-bindgen-futures = "0.4"
 serde-wasm-bindgen = "0.6"
 yew = { version = "0.21.0", features = ["csr"] }
 yew-nested-router = { version = "0.5.0" }
-patternfly-yew = { version = "0.5.4" }
+patternfly-yew = { version = "0.5.5" }
 graphql_client = { version = "0.13.0", features = ["reqwest-rustls"] }
 reqwest = { version = "0.11.22", feature = ["rustls-tls"] }
 serde = { version = "1.0.193", features = ["derive"] }
