@@ -2675,9 +2675,9 @@ checksum = "8835116a5c179084a830efb3adc117ab007512b535bc1a21c991d3b32a6b44dd"
 
 [[package]]
 name = "patternfly-yew"
-version = "0.5.5"
+version = "0.5.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0cda97c90760390904b08431b3c7408afa267e99b53a1bf9bfff6dc574d4a37f"
+checksum = "f625b631bb42afe7a2f6a5028afa6c02422e54956e4238698a2b233f4e339cb4"
 dependencies = [
  "chrono",
  "gloo-events 0.2.0",
@@ -2696,6 +2696,7 @@ dependencies = [
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
+ "web-tools",
  "yew",
  "yew-hooks",
  "yew-nested-router",
@@ -4216,6 +4217,16 @@ checksum = "50c24a44ec86bb68fbecd1b3efed7e85ea5621b39b35ef2766b66cd984f8010f"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "web-tools"
+version = "0.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4e4af3d34fc328a03f4b1fd614c6683b0e94c795a740e5c4bc23b3415bf84045"
+dependencies = [
+ "web-sys",
+ "yew",
 ]
 
 [[package]]
