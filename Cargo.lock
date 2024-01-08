@@ -3797,6 +3797,7 @@ checksum = "c4a34ab300f2dee6e562c10a046fc05e358b29f9bf92277f30c3c8d82275f6f5"
 dependencies = [
  "deranged",
  "itoa",
+ "js-sys",
  "powerfmt",
  "serde",
  "time-core",
@@ -4638,9 +4639,9 @@ dependencies = [
 
 [[package]]
 name = "yew-oauth2"
-version = "0.9.1"
+version = "0.9.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c0f1e96b4028a4a1288d22f320deffd09e2b996f9bc9c17e25c9c09d7e8cf612"
+checksum = "abfac0117ff671cb1f27a640743c35494372c9cac4c30ca2bccc7472240cb6a5"
 dependencies = [
  "async-trait",
  "gloo-storage 0.3.0",
@@ -4652,6 +4653,7 @@ dependencies = [
  "oauth2",
  "reqwest",
  "serde",
+ "time",
  "tokio",
  "wasm-bindgen",
  "wasm-bindgen-futures",
