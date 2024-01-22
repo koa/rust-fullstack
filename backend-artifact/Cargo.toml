@@ -12,7 +12,7 @@ actix-service = "2.0.2"
 static-files = "0.2.3"
 backend-impl = { path = "../backend-impl" }
 async-graphql = "6.0.11"
-async-graphql-actix-web = "6.0.11"
+async-graphql-actix-web = "7.0.1"
 env_logger = "0.10.0"
 log = "0.4"
 prometheus = "0.13.3"
