@@ -106,11 +106,9 @@ impl yew::Component for App {
                                 token_url,
                             },
                     }) => {
-                        scope.send_message(AppMessage::AuthenticationData(Config {
-                            client_id,
-                            auth_url,
-                            token_url,
-                        }));
+                        scope.send_message(AppMessage::AuthenticationData(Config::new(
+                            client_id, auth_url, token_url,
+                        )));
                     }
                     Err(err) => error!("Error on server {err:?}"),
                 }
