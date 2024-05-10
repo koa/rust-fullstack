@@ -1,9 +1,10 @@
 use log::error;
-use patternfly_yew::prelude::TextInput;
-use patternfly_yew::prelude::{Form, TextInputType};
+use patternfly_yew::prelude::{Form, TextInput, TextInputType};
 use wasm_bindgen_futures::spawn_local;
-use yew::html::Scope;
-use yew::prelude::{html, Component, Context, Html};
+use yew::{
+    html::Scope,
+    prelude::{html, Component, Context, Html},
+};
 
 use crate::graphql::{query, Add};
 
@@ -79,10 +80,12 @@ impl Component for Adder {
             Some(AddMessage::BChanged(n))
         });
         let result = self.c;
+        let a = format!("{}", self.a);
+        let b = format!("{}", self.b);
         html! {
             <Form>
-                <TextInput r#type={TextInputType::Number} onchange={a_edit}/>
-                <TextInput r#type={TextInputType::Number} onchange={b_edit}/>
+                <TextInput r#type={TextInputType::Number} onchange={a_edit} value={a}/>
+                <TextInput r#type={TextInputType::Number} onchange={b_edit} value={b}/>
                 <span>{result}</span>
             </Form>
         }
