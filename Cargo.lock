@@ -480,7 +480,7 @@ dependencies = [
  "proc-macro-crate",
  "proc-macro2",
  "quote",
- "strum 0.26.2",
+ "strum",
  "syn 2.0.48",
  "thiserror",
 ]
@@ -2105,7 +2105,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc06a255cbf402a52ae399c05a518c68c569c916ea11423620111df576b9b9bb"
 dependencies = [
  "implicit-clone-derive",
- "indexmap 1.9.3",
+ "indexmap 2.1.0",
 ]
 
 [[package]]
@@ -2711,9 +2711,9 @@ checksum = "8835116a5c179084a830efb3adc117ab007512b535bc1a21c991d3b32a6b44dd"
 
 [[package]]
 name = "patternfly-yew"
-version = "0.5.6"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f625b631bb42afe7a2f6a5028afa6c02422e54956e4238698a2b233f4e339cb4"
+checksum = "51e99b261c0d7695dcbc4a503dfe50b452895774ff0ab9bfdc7391e6e4e058b1"
 dependencies = [
  "chrono",
  "gloo-events 0.2.0",
@@ -2726,8 +2726,8 @@ dependencies = [
  "popper-rs",
  "serde",
  "serde_json",
- "strum 0.25.0",
- "strum_macros 0.25.3",
+ "strum",
+ "strum_macros",
  "uuid",
  "wasm-bindgen",
  "wasm-bindgen-futures",
@@ -2735,6 +2735,7 @@ dependencies = [
  "web-tools",
  "yew",
  "yew-hooks",
+ "yew-more-hooks",
  "yew-nested-router",
 ]
 
@@ -3676,30 +3677,11 @@ checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
 
 [[package]]
 name = "strum"
-version = "0.25.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "290d54ea6f91c969195bdbcd7442c8c2a2ba87da8bf60a7ee86a235d4bc1e125"
-
-[[package]]
-name = "strum"
 version = "0.26.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5d8cec3501a5194c432b2b7976db6b7d10ec95c253208b45f83f7136aa985e29"
 dependencies = [
- "strum_macros 0.26.2",
-]
-
-[[package]]
-name = "strum_macros"
-version = "0.25.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "23dc1fa9ac9c169a78ba62f0b841814b7abae11bdd047b9c58f893439e309ea0"
-dependencies = [
- "heck",
- "proc-macro2",
- "quote",
- "rustversion",
- "syn 2.0.48",
+ "strum_macros",
 ]
 
 [[package]]
@@ -4315,9 +4297,9 @@ dependencies = [
 
 [[package]]
 name = "web-tools"
-version = "0.2.2"
+version = "0.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4e4af3d34fc328a03f4b1fd614c6683b0e94c795a740e5c4bc23b3415bf84045"
+checksum = "901b21319c89163852d2d1a84f8d468b1d2d14a9a064acdd39925acb5e45bd04"
 dependencies = [
  "web-sys",
  "yew",
@@ -4708,10 +4690,26 @@ dependencies = [
 ]
 
 [[package]]
-name = "yew-nested-router"
-version = "0.6.1"
+name = "yew-more-hooks"
+version = "0.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4751cf0b923ebca9443cc5d1f9e9eac2b9b66c21c83f9ae969b9b4b585983f74"
+checksum = "26c1d097ea8cb809457b1d7e96a1363a4d22dd814aa7678739617c29f1774fb6"
+dependencies = [
+ "gloo-utils 0.2.0",
+ "log",
+ "serde",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "web-sys",
+ "yew",
+ "yew-hooks",
+]
+
+[[package]]
+name = "yew-nested-router"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "db64fccc4ae6f799aa789bb4f97912f73f72bcdaff8888715b31c37f88d1d256"
 dependencies = [
  "gloo-events 0.2.0",
  "gloo-utils 0.2.0",
@@ -4728,9 +4726,9 @@ dependencies = [
 
 [[package]]
 name = "yew-nested-router-macros"
-version = "0.6.1"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e850ef3761b08198c959e4bd6f1f8d1a02aa00130503cabf4cfc30f6c61f9a0"
+checksum = "c6d0eca36ca53d08ea2e18191e47126037f7f6bc95e81b1093792cccd3d6c1a4"
 dependencies = [
  "convert_case 0.6.0",
  "darling",
