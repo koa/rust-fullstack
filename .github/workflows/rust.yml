@@ -67,6 +67,6 @@ jobs:
       run: cargo build -p backend-artifact --release
 
     - name: Create Docker file
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@v6
       with:
         context: .
