@@ -18,7 +18,7 @@ log = "0.4"
 prometheus = "0.13.3"
 actix-web-prometheus = { version = "0.1.2", features = ["process"] }
 thiserror = "1.0.57"
-actix-4-jwt-auth = { version = "1.2.1" }
+actix-4-jwt-auth = { version = "1.2.3" }
 tracing-actix-web = "0.7"
 tracing = { version = "0.1", features = ["log"] }
 serde = "1.0.196"
