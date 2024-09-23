@@ -11,7 +11,7 @@ wasm-bindgen-futures = "0.4"
 serde-wasm-bindgen = "0.6"
 yew = { version = "0.21.0", features = ["csr"] }
 yew-nested-router = { version = "0.7.0" }
-patternfly-yew = { version = "0.6.1" }
+patternfly-yew = { version = "0.6.3" }
 graphql_client = { version = "0.15.0", features = ["reqwest-rustls"], git = "https://github.com/Chrisss93/graphql-client", branch = "reqwest-upgrade" }
 reqwest = { version = "0.12.4", feature = ["rustls-tls"] }
 serde = { version = "1.0.206", features = ["derive"] }
