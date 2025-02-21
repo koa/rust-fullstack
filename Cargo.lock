@@ -653,7 +653,6 @@ name = "backend-artifact"
 version = "0.1.0"
 dependencies = [
  "actix-4-jwt-auth",
- "actix-service",
  "actix-web",
  "actix-web-prometheus",
  "actix-web-static-files",
@@ -679,7 +678,6 @@ dependencies = [
  "async-graphql",
  "config",
  "lazy_static",
- "log",
  "serde",
 ]
 

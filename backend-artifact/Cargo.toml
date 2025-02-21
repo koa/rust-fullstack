@@ -8,7 +8,6 @@ edition = "2021"
 [dependencies]
 actix-web = "4"
 actix-web-static-files = "4"
-actix-service = "2.0.2"
 static-files = "0.2.3"
 backend-impl = { path = "../backend-impl" }
 async-graphql = "7.0.13"
