@@ -6,20 +6,20 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wasm-bindgen = "0.2.99"
+wasm-bindgen = "0.2.100"
 wasm-bindgen-futures = "0.4"
 serde-wasm-bindgen = "0.6"
 yew = { version = "0.21.0", features = ["csr"] }
 yew-nested-router = { version = "0.7.0" }
 patternfly-yew = { version = "0.6.3" }
 graphql_client = { version = "0.15.0", features = ["reqwest-rustls"], git = "https://github.com/Chrisss93/graphql-client", branch = "reqwest-upgrade" }
-reqwest = { version = "0.12.4", feature = ["rustls-tls"] }
-serde = { version = "1.0.206", features = ["derive"] }
-serde_json = "1.0.117"
+reqwest = { version = "0.12.12", feature = ["rustls-tls"] }
+serde = { version = "1.0.218", features = ["derive"] }
+serde_json = "1.0.139"
 log = "0.4"
 wasm-logger = "0.2.0"
-web-sys = "0.3.69"
-thiserror = "1.0.57"
+web-sys = "0.3.77"
+thiserror = "2.0.11"
 
 yew-oauth2 = "0.11.0"
 tokio = { version = "1", features = ["sync"] }
@@ -30,4 +30,4 @@ stylist = { version = "0.13.0", features = ["yew_use_media_query"] }
 
 [build-dependencies]
 backend-impl = { path = "../backend-impl" }
-anyhow = "1.0.83"
+anyhow = "1.0.96"
