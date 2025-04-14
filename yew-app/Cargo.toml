@@ -26,4 +26,4 @@ console_error_panic_hook = "0.1.7"
 
 [build-dependencies]
 backend-impl = { path = "../backend-impl" }
-anyhow = "1.0.96"
+anyhow = "1.0.98"
