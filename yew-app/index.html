@@ -1,10 +1,15 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <link data-trunk rel="scss" href="node/node_modules/@patternfly/patternfly/patternfly.scss">
-    <link data-trunk rel="scss" href="node/node_modules/@patternfly/patternfly/patternfly-addons.scss">
-    <link data-trunk rel="copy-dir" href="node/node_modules/@patternfly/patternfly/assets">
-    <link data-trunk rel="css" href="local.css">
+
+
+    <link data-trunk rel="scss" href="assets/style.scss">
+    <!-- This path needs to be here, otherwise icons won't render correctly -->
+    <link data-trunk rel="copy-dir" href="node/node_modules/@patternfly/patternfly/assets" data-target-path="assets/">
+    <!--<link data-trunk rel="copy-dir" href="assets/images">-->
+
+    <link data-trunk rel="copy-dir" href="node/node_modules/@fortawesome/fontawesome-free/webfonts">
+
 </head>
 <body>
 </body>

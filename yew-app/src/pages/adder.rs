@@ -3,10 +3,10 @@ use patternfly_yew::prelude::{Form, TextInput, TextInputType};
 use wasm_bindgen_futures::spawn_local;
 use yew::{
     html::Scope,
-    prelude::{html, Component, Context, Html},
+    prelude::{Component, Context, Html, html},
 };
 
-use crate::graphql::{query, Add};
+use crate::graphql::{Add, query};
 
 pub struct Adder {
     a: i64,

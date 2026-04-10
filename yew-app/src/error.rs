@@ -1,7 +1,6 @@
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 
-use log::error;
 use reqwest::header::InvalidHeaderValue;
 use thiserror::Error;
 use wasm_bindgen::JsValue;

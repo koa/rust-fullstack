@@ -4,19 +4,19 @@ use patternfly_yew::prelude::{
 };
 use wasm_bindgen_futures::spawn_local;
 use yew::Context;
-use yew::{function_component, Callback, MouseEvent};
-use yew::{html, html_nested, Html, Properties};
-use yew_nested_router::prelude::{Switch as RouterSwitch, Target};
+use yew::{Callback, MouseEvent, function_component};
+use yew::{Html, Properties, html, html_nested};
 use yew_nested_router::Router;
+use yew_nested_router::prelude::{Switch as RouterSwitch, Target};
 use yew_oauth2::oauth2::LocationRedirect;
-use yew_oauth2::oauth2::{use_auth_agent, OAuth2};
-use yew_oauth2::prelude::oauth2::Config;
+use yew_oauth2::oauth2::{OAuth2, use_auth_agent};
 use yew_oauth2::prelude::Failure;
 use yew_oauth2::prelude::NotAuthenticated;
+use yew_oauth2::prelude::oauth2::Config;
 use yew_oauth2::prelude::{Authenticated, OAuth2Operations};
 
 use crate::graphql::settings::{ResponseData, SettingsAuthentication};
-use crate::graphql::{query_anonymous, settings, Settings};
+use crate::graphql::{Settings, query_anonymous, settings};
 use crate::pages::adder::Adder;
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Target)]
@@ -136,7 +136,7 @@ fn main_page() -> Html {
             <ToastViewer>
                 <Failure>{"Fail"}</Failure>
                 <Authenticated>
-                    <Page sidebar={html_nested! {<PageSidebar><AuthenticatedSidebar/></PageSidebar>}}>
+                    <Page sidebar={html_nested! {<PageSidebar><AuthenticatedSidebar/></PageSidebar>}} full_height={true}>
                       //<ToastViewer/>
                       //logo={logo}
                         <RouterSwitch<AppRoute>
@@ -145,7 +145,7 @@ fn main_page() -> Html {
                     </Page>
                 </Authenticated>
                 <NotAuthenticated>
-                    <Page sidebar={html_nested! {<PageSidebar><NotAuthenticatedSidebar/></PageSidebar>}}>
+                    <Page sidebar={html_nested! {<PageSidebar><NotAuthenticatedSidebar/></PageSidebar>}} full_height={true}>
                         <RouterSwitch<AppRoute>
                             render = {switch_unauthenticated}
                         />

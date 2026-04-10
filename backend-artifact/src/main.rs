@@ -1,15 +1,14 @@
 use std::collections::HashMap;
 
 use actix_4_jwt_auth::{
-    biscuit::{Validation, ValidationOptions},
     DecodedInfo, OIDCValidationError, Oidc, OidcBiscuitValidator, OidcConfig,
+    biscuit::{Validation, ValidationOptions},
 };
 use actix_web::{
-    get,
+    App, HttpServer, get,
     guard::Post,
     middleware::Logger,
-    web::{resource, Data},
-    App, HttpServer,
+    web::{Data, resource},
 };
 use actix_web_prometheus::PrometheusMetricsBuilder;
 use actix_web_static_files::ResourceFiles;
@@ -17,14 +16,14 @@ use async_graphql::futures_util::future::join_all;
 use async_graphql_actix_web::{GraphQLRequest, GraphQLResponse};
 use env_logger::Env;
 use log::{error, info, trace};
-use prometheus::{histogram_opts, HistogramVec};
+use prometheus::{HistogramVec, histogram_opts};
 use static_files::Resource;
 use thiserror::Error;
 use tracing_actix_web::TracingLogger;
 
 use backend_impl::{
-    config::CONFIG, context::UserInfo, create_anonymous_schema, create_schema,
-    AnonymousGraphqlSchema, GraphqlSchema,
+    AnonymousGraphqlSchema, GraphqlSchema, config::CONFIG, context::UserInfo,
+    create_anonymous_schema, create_schema,
 };
 
 include!(concat!(env!("OUT_DIR"), "/generated.rs"));

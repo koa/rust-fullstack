@@ -1,6 +1,0 @@
-div.pf-c-page {
-    grid-template-columns: max-content 1fr;
-    grid-template-areas:
-        "header header"
-        "nav main";
-}

@@ -1,7 +1,7 @@
-use graphql_client::reqwest::post_graphql;
 use graphql_client::GraphQLQuery;
+use graphql_client::reqwest::post_graphql;
 use lazy_static::lazy_static;
-use reqwest::header::{HeaderMap, AUTHORIZATION};
+use reqwest::header::{AUTHORIZATION, HeaderMap};
 use yew::html::Scope;
 use yew::{Callback, Component};
 use yew_oauth2::context::OAuth2Context::Authenticated;
