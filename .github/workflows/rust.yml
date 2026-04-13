@@ -33,7 +33,7 @@ jobs:
     - name: Install Cargo modules
       run: cargo install trunk clippy-sarif sarif-fmt
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
     - name: Cache Target
       uses: actions/cache@v4
       with:
