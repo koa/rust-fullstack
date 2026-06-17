@@ -626,7 +626,6 @@ dependencies = [
  "log",
  "prometheus",
  "serde_json",
- "static-files 0.2.5",
  "static-files 0.3.1",
  "thiserror 2.0.18",
  "tracing-actix-web",
